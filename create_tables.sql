@@ -1,6 +1,21 @@
 REM   Script: Entrega 3
 REM   AV3 GDI
 
+DROP TABLE Entregador;
+DROP TABLE Consumidor;
+DROP TABLE Fornecedor;
+DROP TABLE Supermercado;
+DROP TABLE Restaurante;
+DROP TABLE Produto;
+DROP TABLE ProdutoOfertado;
+DROP TABLE Desconto;
+DROP TABLE Pedido;
+DROP TABLE Contem;
+DROP TABLE Componente;
+DROP TABLE TelefoneEntregador;
+DROP TABLE TelefoneConsumidor;
+DROP TABLE TelefoneFornecedor;
+
 CREATE TABLE Entregador ( 
     CPF CHAR(11) PRIMARY KEY, 
     DataDeNascimento DATE NOT NULL, 
@@ -18,8 +33,6 @@ CREATE TABLE Consumidor (
     Complemento VARCHAR(50) 
 );
 
-
-
 CREATE TABLE Fornecedor ( 
     CNPJ CHAR(14) PRIMARY KEY, 
     Nome VARCHAR(100) NOT NULL, 
@@ -30,19 +43,16 @@ CREATE TABLE Fornecedor (
     Complemento VARCHAR(50) 
 );
 
-
 CREATE TABLE Supermercado ( 
     CNPJ_Forn CHAR(14), 
     FOREIGN KEY (CNPJ_Forn) REFERENCES Fornecedor(CNPJ) 
 );
-
 
 CREATE TABLE Restaurante ( 
     CNPJ_Forn CHAR(14), 
     Categoria VARCHAR(50), 
     FOREIGN KEY (CNPJ_Forn) REFERENCES Fornecedor(CNPJ) 
 );
-
 
 CREATE TABLE Produto ( 
     IdProduto INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
@@ -65,7 +75,6 @@ CREATE TABLE Desconto (
     PRIMARY KEY (CNPJ_Desconto, Data), 
     FOREIGN KEY (CNPJ_Desconto) REFERENCES Fornecedor(CNPJ) 
 );
-
 
 CREATE TABLE Pedido ( 
     IdPedido INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
