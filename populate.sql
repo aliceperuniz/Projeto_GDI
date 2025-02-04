@@ -172,8 +172,8 @@ INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem)
 VALUES ('23999989000111', TO_DATE('2025-04-02', 'YYYY-MM-DD'), 8.00);
 
 
-INSERT INTO Pedido (ValorTotal, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
-VALUES (75.00, TO_DATE('2025-02-01', 'YYYY-MM-DD'),  
+INSERT INTO Pedido (IdPedido, ValorTotal, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
+VALUES (seq_pedido.NEXTVAL, 75.00, TO_DATE('2025-02-01', 'YYYY-MM-DD'),  
     TO_TIMESTAMP('2025-02-01 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '34567890123',  
     '76543210987',  
     '23456789000111' 
