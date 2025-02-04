@@ -139,25 +139,14 @@ INSERT INTO Produto (Nome) VALUES ('Brigadeiro');
 
 INSERT INTO Produto (Nome) VALUES ('Risoto de Camarao');
 
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (1, '23456789000111', 25.00);
 
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (2, '23456000000111', 35.00);
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (1, '34567890000122', 20.00);
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (2, '34567890000122', 25.00);
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (3, '00056789000111', 15.00);
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (4, '00056789000111', 18.00);
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (5, '23456756700111', 30.00);
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (6, '23456756700111', 35.00);
 
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (3, '12336789000111', 10.00);
-
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (4, '23456789111111', 100.00);
-
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (5, '23456789222111', 89.00);
-
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (6, '34567890000122', 5.00);
-
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (7, '23456756700111', 99.00);
-
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (8, '00056789000111', 47.00);
-
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (9, '23999989000111', 38.00);
-
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (10, '23999555000111', 30.00);
 
 INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) 
 VALUES ('23456789000111', TO_DATE('2025-02-02', 'YYYY-MM-DD'), 15.00);
@@ -179,59 +168,47 @@ VALUES (seq_pedido.NEXTVAL, 75.00, TO_DATE('2025-02-01', 'YYYY-MM-DD'),
     '23456789000111' 
 );
 
+INSERT INTO Pedido (IdPedido, ValorTotal, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
+VALUES (seq_pedido.NEXTVAL, 50.00, TO_DATE('2025-02-03', 'YYYY-MM-DD'),  
+    TO_TIMESTAMP('2025-02-03 12:30:00', 'YYYY-MM-DD HH24:MI:SS'), '14408809444',  
+    '12312312300',  
+    '00056789000111' 
+);
 
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) 
-VALUES (1, 1, '34567890000122');  -- Pedido 2, Pizza Margherita 
- 
-;
+INSERT INTO Pedido (IdPedido, ValorTotal, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
+VALUES (seq_pedido.NEXTVAL, 120.00, TO_DATE('2025-02-05', 'YYYY-MM-DD'),  
+    TO_TIMESTAMP('2025-02-05 19:45:00', 'YYYY-MM-DD HH24:MI:SS'), '09445676533',  
+    '86586586599',  
+    '23456756700111' 
+);
+
 
 INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (1, 1, '34567890000122');
-
-
-SELECT *  
-FROM pedido;
-
 INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (1, 2, '34567890000122');
-
-SELECT *  
-FROM produto;
-
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (1, 2, '34567890000122');
-
-SELECT *  
-FROM fornecedor;
-
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (1, 2, '34567890000122');
-
-SELECT *  
-FROM fornecedor 
--- Povoamento da tabela Contém 
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (1, 2, '23456789000111');
-
-SELECT *  
-FROM fornecedor;
-
-SELECT *  
-FROM pedido;
-
-SELECT *  
-FROM contem;
-
-SELECT * FROM ProdutoOfertado WHERE IdProduto = 2 AND CNPJ_Forn = '23456789000111';
-
-SELECT * FROM ProdutoOfertado;
-
-INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco)  
-VALUES (2, '23456789000111', 30.00);
-
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('8133330003', '34567890000122');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (2, 3, '00056789000111');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (2, 4, '00056789000111');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (3, 5, '23456756700111');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (3, 6, '23456756700111');
 
 
 INSERT INTO Componente (CodigoComponente, CodigoComposto) 
-VALUES (1, 2);  -- Pão Francês faz parte de Refrigerante (exemplo de combinação) 
+VALUES (1, 2);
+INSERT INTO Componente (CodigoComponente, CodigoComposto) 
+VALUES (3, 4);
+INSERT INTO Componente (CodigoComponente, CodigoComposto) 
+VALUES (5, 6);
 
-INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (1, 2);
+
+INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('8133330003', '34567890000122');
+INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81999990004', '00056789000111');
+INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81977770006', '23456756700111');
+
 
 INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990003', '34567890123');
+INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990005', '14408809444');
+INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81966660007', '09445676533');
+
 
 INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81988880003', '76543210987');
+INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81988880004', '12312312300');
+INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81955550008', '86586586599');
