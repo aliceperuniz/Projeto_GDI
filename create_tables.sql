@@ -62,7 +62,7 @@ CREATE TABLE Produto (
 CREATE TABLE ProdutoOfertado ( 
     IdProduto INT, 
     CNPJ_Forn CHAR(14), 
-    Preco DECIMAL(10, 2), 
+    Preco DECIMAL(10, 2) CHECK (Preco >= 0), 
     PRIMARY KEY (IdProduto, CNPJ_Forn), 
     FOREIGN KEY (IdProduto) REFERENCES Produto(IdProduto), 
     FOREIGN KEY (CNPJ_Forn) REFERENCES Fornecedor(CNPJ) 
