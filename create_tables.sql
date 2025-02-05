@@ -1,20 +1,19 @@
-REM   Script: Entrega 3
-REM   AV3 GDI
-
-DROP TABLE Entregador;
-DROP TABLE Consumidor;
-DROP TABLE Fornecedor;
-DROP TABLE Supermercado;
-DROP TABLE Restaurante;
-DROP TABLE Produto;
-DROP TABLE ProdutoOfertado;
-DROP TABLE Desconto;
-DROP TABLE Pedido;
 DROP TABLE Contem;
 DROP TABLE Componente;
 DROP TABLE TelefoneEntregador;
 DROP TABLE TelefoneConsumidor;
 DROP TABLE TelefoneFornecedor;
+DROP TABLE Pedido;
+DROP TABLE Desconto;
+DROP TABLE ProdutoOfertado;
+DROP TABLE Produto;
+DROP TABLE Restaurante;
+DROP TABLE Supermercado;
+DROP TABLE Fornecedor;
+DROP TABLE Consumidor;
+DROP TABLE Entregador;
+DROP SEQUENCE seq_pedido;
+
 
 CREATE TABLE Entregador ( 
     CPF CHAR(11) PRIMARY KEY, 
@@ -63,7 +62,7 @@ CREATE TABLE ProdutoOfertado (
     IdProduto INT, 
     CNPJ_Forn CHAR(14), 
     Preco DECIMAL(10, 2) CHECK (Preco >= 0), 
-    PRIMARY KEY (IdProduto, CNPJ_Forn), 
+    PRIMARY KEY (IdProduto, CNPJ_Forn, Preco), 
     FOREIGN KEY (IdProduto) REFERENCES Produto(IdProduto), 
     FOREIGN KEY (CNPJ_Forn) REFERENCES Fornecedor(CNPJ) 
 );
@@ -94,11 +93,12 @@ CREATE TABLE Pedido (
 CREATE TABLE Contem ( 
     IdPedido INT NOT NULL, 
     IdProduto INT NOT NULL, 
+	PrecoProduto DECIMAL(10, 2),
     IdFornecedor CHAR(14) NOT NULL, 
     PRIMARY KEY (IdPedido, IdProduto, IdFornecedor), 
     FOREIGN KEY (IdPedido) REFERENCES Pedido(IdPedido), 
-    CONSTRAINT FK_ProdutoOfertado FOREIGN KEY (IdProduto, IdFornecedor)  
-        REFERENCES ProdutoOfertado(IdProduto, CNPJ_Forn) 
+    CONSTRAINT FK_ProdutoOfertado FOREIGN KEY (IdProduto, PrecoProduto, IdFornecedor)  
+        REFERENCES ProdutoOfertado(IdProduto, Preco, CNPJ_Forn) 
 );
 
 CREATE TABLE Componente ( 
@@ -129,4 +129,3 @@ CREATE TABLE TelefoneFornecedor (
     PRIMARY KEY (Telefone_Fornecedor), 
     FOREIGN KEY (Fornecedor_CNPJ) REFERENCES Fornecedor(CNPJ) 
 );
-
