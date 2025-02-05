@@ -134,6 +134,8 @@ INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (5, '2345675670
 
 INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (6, '23456756700111', 35.00);
 
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (1, '23456756700111', 35.00);
+
 
 
 --INSERINDO DESCONTOS
@@ -175,17 +177,19 @@ VALUES (seq_pedido.NEXTVAL, 120.00, TO_DATE('2025-02-05', 'YYYY-MM-DD'),
 
 --INSERINDO CONTÉM
 
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (1, 1, '34567890000122');
+INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (1, 1, 20.00, '34567890000122');
 
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (1, 2, '34567890000122');
+INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (1, 2, 25.00,'34567890000122');
 
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (2, 3, '00056789000111');
+INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (2, 3, 15.00, '00056789000111');
 
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (2, 4, '00056789000111');
+INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (2, 4, 18.00,'00056789000111');
 
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (3, 5, '23456756700111');
+INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (3, 5, 30.00, '23456756700111');
 
-INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (3, 6, '23456756700111');
+INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (3, 6, 35.00, '23456756700111');
+
+INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (3, 1, 35.00, '23456756700111');
 
 
 
@@ -196,7 +200,6 @@ INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (1, 2);
 INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (3, 4);
 
 INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (5, 6);
-
 
 
 --INSERINDO TELEFONES DE FORNECEDORES, ENTREGADORES E CONSUMIDORES
