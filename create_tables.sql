@@ -79,7 +79,6 @@ CREATE SEQUENCE seq_pedido START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE Pedido ( 
     IdPedido INT PRIMARY KEY, 
-    ValorTotal DECIMAL(10, 2) NOT NULL, 
     Data DATE NOT NULL, 
     HoraDaEntrega TIMESTAMP, 
     CPF_Entregador CHAR(11), 
@@ -92,8 +91,8 @@ CREATE TABLE Pedido (
 
 CREATE TABLE Contem ( 
     IdPedido INT NOT NULL, 
-    IdProduto INT NOT NULL, 
-	PrecoProduto DECIMAL(10, 2),
+    IdProduto INT NOT NULL,
+    PrecoProduto DECIMAL(10, 2) NOT NULL,
     IdFornecedor CHAR(14) NOT NULL, 
     PRIMARY KEY (IdPedido, IdProduto, IdFornecedor), 
     FOREIGN KEY (IdPedido) REFERENCES Pedido(IdPedido), 
