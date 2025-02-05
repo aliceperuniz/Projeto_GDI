@@ -1,4 +1,4 @@
---INSERINDO ENTREGADORES
+
 
 INSERT INTO Entregador (CPF, DataDeNascimento, Nome)  VALUES ('34567890123', TO_DATE('1995-09-30', 'YYYY-MM-DD'), 'Carlos Lima');
 
@@ -152,22 +152,22 @@ INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('23999989000111'
 
 --INSERINDO PEDIDOS
 
-INSERT INTO Pedido (IdPedido, ValorTotal, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
-VALUES (seq_pedido.NEXTVAL, 75.00, TO_DATE('2025-02-01', 'YYYY-MM-DD'),  
+INSERT INTO Pedido (IdPedido, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
+VALUES (seq_pedido.NEXTVAL, TO_DATE('2025-02-01', 'YYYY-MM-DD'),  
     TO_TIMESTAMP('2025-02-01 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '34567890123',  
     '76543210987',  
     '23456789000111' 
 );
 
-INSERT INTO Pedido (IdPedido, ValorTotal, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
-VALUES (seq_pedido.NEXTVAL, 50.00, TO_DATE('2025-02-03', 'YYYY-MM-DD'),  
+INSERT INTO Pedido (IdPedido, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
+VALUES (seq_pedido.NEXTVAL, TO_DATE('2025-02-03', 'YYYY-MM-DD'),  
     TO_TIMESTAMP('2025-02-03 12:30:00', 'YYYY-MM-DD HH24:MI:SS'), '14408809444',  
     '12312312300',  
     '00056789000111' 
 );
 
-INSERT INTO Pedido (IdPedido, ValorTotal, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
-VALUES (seq_pedido.NEXTVAL, 120.00, TO_DATE('2025-02-05', 'YYYY-MM-DD'),  
+INSERT INTO Pedido (IdPedido, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ) 
+VALUES (seq_pedido.NEXTVAL, TO_DATE('2025-02-05', 'YYYY-MM-DD'),  
     TO_TIMESTAMP('2025-02-05 19:45:00', 'YYYY-MM-DD HH24:MI:SS'), '09445676533',  
     '86586586599',  
     '23456756700111' 
@@ -230,3 +230,36 @@ INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81
 INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81988880004', '12312312300');
 
 INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81955550008', '86586586599');
+    FOREIGN KEY (IdPedido) REFERENCES Pedido(IdPedido), 
+    CONSTRAINT FK_ProdutoOfertado FOREIGN KEY (IdProduto, PrecoProduto, IdFornecedor)  
+        REFERENCES ProdutoOfertado(IdProduto, Preco, CNPJ_Forn) 
+);
+
+CREATE TABLE Componente ( 
+    CodigoComponente INT, 
+    CodigoComposto INT, 
+    PRIMARY KEY (CodigoComponente, CodigoComposto), 
+    FOREIGN KEY (CodigoComponente) REFERENCES Produto(IdProduto), 
+    FOREIGN KEY (CodigoComposto) REFERENCES Produto(IdProduto) 
+);
+
+CREATE TABLE TelefoneEntregador ( 
+    Telefone_Entregador CHAR(15), 
+    Entregador_CPF CHAR(11), 
+    PRIMARY KEY (Telefone_Entregador), 
+    FOREIGN KEY (Entregador_CPF) REFERENCES Entregador(CPF) 
+);
+
+CREATE TABLE TelefoneConsumidor ( 
+    Telefone_Consumidor CHAR(15), 
+    Consumidor_CPF CHAR(11), 
+    PRIMARY KEY (Telefone_Consumidor), 
+    FOREIGN KEY (Consumidor_CPF) REFERENCES Consumidor(CPF) 
+);
+
+CREATE TABLE TelefoneFornecedor ( 
+    Telefone_Fornecedor CHAR(15), 
+    Fornecedor_CNPJ CHAR(14), 
+    PRIMARY KEY (Telefone_Fornecedor), 
+    FOREIGN KEY (Fornecedor_CNPJ) REFERENCES Fornecedor(CNPJ) 
+);
