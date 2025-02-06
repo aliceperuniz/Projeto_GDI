@@ -98,7 +98,7 @@ CREATE TABLE Contem (
     IdProduto INT NOT NULL,
     PrecoProduto DECIMAL(10, 2) NOT NULL,
     IdFornecedor CHAR(14) NOT NULL,
-    CONSTRAINT PK_Contem PRIMARY KEY (IdPedido, IdProduto, PrecoProduto, IdFornecedor),
+    CONSTRAINT PK_Contem PRIMARY KEY (IdPedido, IdProduto, IdFornecedor),
     CONSTRAINT FK_Contem_Pedido FOREIGN KEY (IdPedido) REFERENCES Pedido(IdPedido),
     CONSTRAINT FK_Contem_ProdutoOfertado FOREIGN KEY (IdProduto, PrecoProduto, IdFornecedor)  
         REFERENCES ProdutoOfertado(IdProduto, Preco, CNPJ_Forn)
