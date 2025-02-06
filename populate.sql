@@ -1,4 +1,4 @@
-
+--INSERINDO ENTREGADORES
 
 INSERT INTO Entregador (CPF, DataDeNascimento, Nome)  VALUES ('34567890123', TO_DATE('1995-09-30', 'YYYY-MM-DD'), 'Carlos Lima');
 
@@ -461,104 +461,110 @@ INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (5, 9);
 --INSERINDO TELEFONES DE FORNECEDORES, ENTREGADORES E CONSUMIDORES
 --TELEFONES DE FORNECEDORES
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('8133330003', '34567890000122');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ)  VALUES ('81', '33330003', '34567890000122');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81999990004', '00056789000111');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '999990004', '00056789000111');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81977770006', '23456756700111');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '977770006', '23456756700111');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81777770001', '11122233344455');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '977777001', '11122233344455');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('8133330004', '98765432000199');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '33330004', '98765432000199');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81999990006', '87654321000188');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '999990006', '87654321000188');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81977770007', '76543210000177');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '977770007', '76543210000177');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81977769817', '76543210000177');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '977769817', '76543210000177');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81777770008', '65432100000166');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '777770008', '65432100000166');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81777770009', '54321000000155');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '777770009', '54321000000155');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81709420009', '54321000000155');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '709420009', '54321000000155');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81988880010', '43210000000144');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '988880010', '43210000000144');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81988880011', '32100000000133');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '988880011', '32100000000133');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81988880012', '21000000000122');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '988880012', '21000000000122');
 
-INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81988880013', '10900000000111');
+INSERT INTO TelefoneFornecedor (Ddd_Fornecedor, Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81', '988880013', '10900000000111');
 
 
 
 --TELEFONES DE ENTREGADORES
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990003', '34567890123');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990003', '34567890123');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990005', '14408809444');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990005', '14408809444');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81966660007', '09445676533');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '966666007', '09445676533');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81777770002', '55566677788');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '777770002', '55566677788');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81777770003', '66677788899');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '777770003', '66677788899');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990007', '77788899900');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990007', '77788899900');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990008', '88899900011');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990008', '88899900011');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990009', '99900011122');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990009', '99900011122');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990010', '00011122233');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990010', '00011122233');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990011', '11122233344');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990011', '11122233344');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990012', '22233344455');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990012', '22233344455');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990013', '33344455566');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990013', '33344455566');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81420990013', '33344455566');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '420990013', '33344455566');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990014', '44455566677');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990014', '44455566677');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81999990015', '55566677799');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '999990015', '55566677799');
 
-INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81990080015', '55566677799');
+INSERT INTO TelefoneEntregador (Ddd_Entregador, Telefone_Entregador, Entregador_CPF)  VALUES ('81', '990080015', '55566677799');
 
 
 
 --TELEFONES DE CONSUMIDORES
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81988880003', '76543210987');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '888880003', '76543210987');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81988880004', '12312312300');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '888880004', '12312312300');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81930580004', '12312312300');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '305800004', '12312312300');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81955550008', '86586586599');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '988880003', '76543210987');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81777770004', '98765432112');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '988880004', '12312312300');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81777770005', '11223344556');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '930580004', '12312312300');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770014', '22334455667');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '955550008', '86586586599');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770015', '33445566778');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '777770004', '98765432112');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770016', '44556677889');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '777770005', '11223344556');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81972070016', '44556677889');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '977770014', '22334455667');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770017', '55667788990');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '977770015', '33445566778');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770018', '66778899001');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '977770016', '44556677889');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770019', '77889900112');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '972070016', '44556677889');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770020', '88990011223');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '977770017', '55667788990');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770021', '99001122334');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '977770018', '66778899001');
 
-INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770022', '10111213141');
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '977770019', '77889900112');
+
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '977770020', '88990011223');
+
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '977770021', '99001122334');
+
+INSERT INTO TelefoneConsumidor (Ddd_Consumidor, Telefone_Consumidor, Consumidor_CPF) VALUES ('81', '977770022', '10111213141');
