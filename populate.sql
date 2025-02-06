@@ -20,6 +20,10 @@ INSERT INTO Entregador (CPF, DataDeNascimento, Nome)  VALUES ('45676555523', TO_
 
 INSERT INTO Entregador (CPF, DataDeNascimento, Nome)  VALUES ('24367899911', TO_DATE('2002-06-01', 'YYYY-MM-DD'), 'Julia Carvalho');
 
+INSERT INTO Entregador (CPF, DataDeNascimento, Nome) VALUES ('55566677788', TO_DATE('1990-02-02', 'YYYY-MM-DD'), 'Rafael Pereira');
+
+INSERT INTO Entregador (CPF, DataDeNascimento, Nome) VALUES ('66677788899', TO_DATE('1985-07-07', 'YYYY-MM-DD'), 'Marcela Souza');
+
 
 
 --INSERINDO CONSUMIDORES
@@ -39,6 +43,10 @@ INSERT INTO Consumidor (CPF, DataDeNascimento, Nome, CEP, Rua, Numero, Cidade, C
 INSERT INTO Consumidor (CPF, DataDeNascimento, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('76540000987', TO_DATE('1957-01-03', 'YYYY-MM-DD'), 'Lucas Mendes', '51000000', 'Rua Virginia Loreto', 79, 'Recife', 'Apto 303');
 
 INSERT INTO Consumidor (CPF, DataDeNascimento, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('22543210987', TO_DATE('1994-11-03', 'YYYY-MM-DD'), 'Vinicius Albuquerque', '53400000', 'Rua das Gracas', 80, 'Recife', 'Apto 1401');
+
+INSERT INTO Consumidor (CPF, DataDeNascimento, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('98765432112', TO_DATE('1991-01-01', 'YYYY-MM-DD'), 'Renata Martins', '52012345', 'Avenida Brasil', 100, 'Recife', 'Casa 1');
+
+INSERT INTO Consumidor (CPF, DataDeNascimento, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('11223344556', TO_DATE('2003-03-03', 'YYYY-MM-DD'), 'André Costa', '52054321', 'Rua da Paz', 45, 'Recife', 'Apto 101');
 
 
 
@@ -64,6 +72,8 @@ INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUE
 
 INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('23456789222111', 'Le Petit', '52130000', 'Rua do Futuro', 20, 'Recife', '');
 
+INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('11122233344455', 'Supermercado do Norte', '52011100', 'Av. Norte', 200, 'Recife', '');
+
 
 
 --INSERINDO SUPERMERCADOS
@@ -78,6 +88,8 @@ INSERT INTO Supermercado (CNPJ_Forn) VALUES ('23999989000111');
 
 INSERT INTO Supermercado (CNPJ_Forn) VALUES ('23999555000111');
 
+INSERT INTO Supermercado (CNPJ_Forn) VALUES ('11122233344455');
+
 
 
 --INSERINDO RESTAURANTES
@@ -91,6 +103,8 @@ INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('12336789000111', 'Comida
 INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('23456789111111', 'Comida Iberica');
 
 INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('23456789222111', 'Comida Italiana');
+
+INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('11122233344455', 'Comida Mexicana');
 
 
 
@@ -118,6 +132,10 @@ INSERT INTO Produto (Nome) VALUES ('Brigadeiro');
 
 INSERT INTO Produto (Nome) VALUES ('Risoto de Camarao');
 
+INSERT INTO Produto (Nome) VALUES ('Lasanha');
+
+INSERT INTO Produto (Nome) VALUES ('Sushi');
+
 
 
 --INSERINDO PRODUTOS OFERTADOS
@@ -136,6 +154,10 @@ INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (6, '2345675670
 
 INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (1, '23456756700111', 35.00);
 
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (12, '11122233344455', 40.00);
+
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (13, '11122233344455', 30.00);
+
 
 
 --INSERINDO DESCONTOS
@@ -147,6 +169,8 @@ INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('23999555000111'
 INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('00056789000111', TO_DATE('2025-03-02', 'YYYY-MM-DD'), 05.00);
 
 INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('23999989000111', TO_DATE('2025-04-02', 'YYYY-MM-DD'), 8.00);
+
+INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('11122233344455', TO_DATE('2025-05-05', 'YYYY-MM-DD'), 12.00);
 
 
 
@@ -173,6 +197,12 @@ VALUES (seq_pedido.NEXTVAL, TO_DATE('2025-02-05', 'YYYY-MM-DD'),
     '23456756700111' 
 );
 
+INSERT INTO Pedido (IdPedido, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ)
+VALUES (seq_pedido.NEXTVAL, TO_DATE('2025-02-07', 'YYYY-MM-DD'),  
+    TO_TIMESTAMP('2025-02-07 17:30:00', 'YYYY-MM-DD HH24:MI:SS'), '55566677788',  
+    '98765432112',  
+    '11122233344455');
+
 
 
 --INSERINDO CONTÉM
@@ -191,6 +221,10 @@ INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (3, 
 
 INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (3, 1, 35.00, '23456756700111');
 
+INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (4, 12, 40.00, '11122233344455');
+
+INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (4, 13, 30.00, '11122233344455');
+
 
 
 --INSERINDO COMPONENTES
@@ -200,6 +234,8 @@ INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (1, 2);
 INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (3, 4);
 
 INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (5, 6);
+
+INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (7, 8);
 
 
 --INSERINDO TELEFONES DE FORNECEDORES, ENTREGADORES E CONSUMIDORES
@@ -211,6 +247,8 @@ INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('8
 
 INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81977770006', '23456756700111');
 
+INSERT INTO TelefoneFornecedor (Telefone_Fornecedor, Fornecedor_CNPJ) VALUES ('81777770001', '11122233344455');
+
 
 
 --TELEFONES DE ENTREGADORES
@@ -221,6 +259,10 @@ INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81
 
 INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81966660007', '09445676533');
 
+INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81777770002', '55566677788');
+
+INSERT INTO TelefoneEntregador (Telefone_Entregador, Entregador_CPF) VALUES ('81777770003', '66677788899');
+
 
 
 --TELEFONES DE CONSUMIDORES
@@ -230,5 +272,9 @@ INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81
 INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81988880004', '12312312300');
 
 INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81955550008', '86586586599');
+
+INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81777770004', '98765432112');
+
+INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81777770005', '11223344556');
 
 
