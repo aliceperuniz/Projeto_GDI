@@ -230,36 +230,5 @@ INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81
 INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81988880004', '12312312300');
 
 INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81955550008', '86586586599');
-    FOREIGN KEY (IdPedido) REFERENCES Pedido(IdPedido), 
-    CONSTRAINT FK_ProdutoOfertado FOREIGN KEY (IdProduto, PrecoProduto, IdFornecedor)  
-        REFERENCES ProdutoOfertado(IdProduto, Preco, CNPJ_Forn) 
-);
 
-CREATE TABLE Componente ( 
-    CodigoComponente INT, 
-    CodigoComposto INT, 
-    PRIMARY KEY (CodigoComponente, CodigoComposto), 
-    FOREIGN KEY (CodigoComponente) REFERENCES Produto(IdProduto), 
-    FOREIGN KEY (CodigoComposto) REFERENCES Produto(IdProduto) 
-);
 
-CREATE TABLE TelefoneEntregador ( 
-    Telefone_Entregador CHAR(15), 
-    Entregador_CPF CHAR(11), 
-    PRIMARY KEY (Telefone_Entregador), 
-    FOREIGN KEY (Entregador_CPF) REFERENCES Entregador(CPF) 
-);
-
-CREATE TABLE TelefoneConsumidor ( 
-    Telefone_Consumidor CHAR(15), 
-    Consumidor_CPF CHAR(11), 
-    PRIMARY KEY (Telefone_Consumidor), 
-    FOREIGN KEY (Consumidor_CPF) REFERENCES Consumidor(CPF) 
-);
-
-CREATE TABLE TelefoneFornecedor ( 
-    Telefone_Fornecedor CHAR(15), 
-    Fornecedor_CNPJ CHAR(14), 
-    PRIMARY KEY (Telefone_Fornecedor), 
-    FOREIGN KEY (Fornecedor_CNPJ) REFERENCES Fornecedor(CNPJ) 
-);
