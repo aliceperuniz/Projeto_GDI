@@ -119,20 +119,20 @@ CREATE TABLE Componente (
 CREATE TABLE TelefoneEntregador (  
     Telefone_Entregador CHAR(15),  
     Entregador_CPF CHAR(11), 
-    CONSTRAINT PK_TelefoneEntregador PRIMARY KEY (Telefone_Entregador), 
+    CONSTRAINT PK_TelefoneEntregador PRIMARY KEY (Telefone_Entregador, Entregador_CPF), 
     CONSTRAINT FK_TelefoneEntregador_Entregador FOREIGN KEY (Entregador_CPF) REFERENCES Entregador(CPF) 
 );
 
 CREATE TABLE TelefoneConsumidor (  
     Telefone_Consumidor CHAR(15),  
     Consumidor_CPF CHAR(11), 
-    CONSTRAINT PK_TelefoneConsumidor PRIMARY KEY (Telefone_Consumidor), 
+    CONSTRAINT PK_TelefoneConsumidor PRIMARY KEY (Telefone_Consumidor, Consumidor_CPF), 
     CONSTRAINT FK_TelefoneConsumidor_Consumidor FOREIGN KEY (Consumidor_CPF) REFERENCES Consumidor(CPF) 
 );
 
 CREATE TABLE TelefoneFornecedor (  
     Telefone_Fornecedor CHAR(15),  
     Fornecedor_CNPJ CHAR(14), 
-    CONSTRAINT PK_TelefoneFornecedor PRIMARY KEY (Telefone_Fornecedor), 
+    CONSTRAINT PK_TelefoneFornecedor PRIMARY KEY (Telefone_Fornecedor, Fornecedor_CNPJ), 
     CONSTRAINT FK_TelefoneFornecedor_Fornecedor FOREIGN KEY (Fornecedor_CNPJ) REFERENCES Fornecedor(CNPJ) 
 );
