@@ -152,15 +152,6 @@ INSERT INTO Supermercado (CNPJ_Forn) VALUES ('76543210000177');
 
 INSERT INTO Supermercado (CNPJ_Forn) VALUES ('65432100000166');
 
-INSERT INTO Supermercado (CNPJ_Forn) VALUES ('54321000000155');
-
-INSERT INTO Supermercado (CNPJ_Forn) VALUES ('43210000000144');
-
-INSERT INTO Supermercado (CNPJ_Forn) VALUES ('32100000000133');
-
-INSERT INTO Supermercado (CNPJ_Forn) VALUES ('21000000000122');
-
-INSERT INTO Supermercado (CNPJ_Forn) VALUES ('10900000000111');
 
 
 
@@ -176,26 +167,15 @@ INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('23456789111111', 'Comida
 
 INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('23456789222111', 'Comida Italiana');
 
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('11122233344455', 'Comida Mexicana');
+INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('54321000000155', 'Comida Mexicana');
 
+INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('43210000000144', 'Comida Francesa');
 
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('98765432000199', 'Comida Francesa');
+INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('32100000000133', 'Comida Chinesa');
 
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('87654321000188', 'Comida Chinesa');
+INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('21000000000122', 'Comida Tailandesa');
 
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('76543210000177', 'Comida Tailandesa');
-
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('65432100000166', 'Comida Árabe');
-
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('54321000000155', 'Comida Vegetariana');
-
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('43210000000144', 'Comida Italiana');
-
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('32100000000133', 'Comida Brasileira');
-
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('21000000000122', 'Comida Peruana');
-
-INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('10900000000111', 'Comida Mediterrânea');
+INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('10900000000111', 'Comida Árabe');
 
 
 
@@ -406,41 +386,41 @@ VALUES (seq_pedido.NEXTVAL, TO_DATE('2025-02-18', 'YYYY-MM-DD'),
 
 --INSERINDO CONTÉM
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (1, 1, 20.00, '34567890000122');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (1, 1, '34567890000122');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (1, 2, 25.00,'34567890000122');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (1, 2, '34567890000122');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (2, 3, 15.00, '00056789000111');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (2, 3, '00056789000111');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (2, 4, 18.00,'00056789000111');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (2, 4, '00056789000111');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (3, 5, 30.00, '23456756700111');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (3, 5, '23456756700111');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (3, 6, 35.00, '23456756700111');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (3, 6, '23456756700111');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (3, 1, 35.00, '23456756700111');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (3, 1, '23456756700111');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (4, 12, 40.00, '11122233344455');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (4, 12, '11122233344455');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (4, 13, 30.00, '11122233344455');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (4, 13, '11122233344455');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (5, 14, 50.00, '98765432000199');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (5, 14, '98765432000199');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (6, 15, 60.00, '87654321000188');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (6, 15, '87654321000188');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (7, 16, 45.00, '76543210000177');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (7, 16, '76543210000177');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (8, 17, 55.00, '65432100000166');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (8, 17, '65432100000166');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (9, 18, 35.00, '54321000000155');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (9, 18, '54321000000155');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (10, 19, 40.00, '43210000000144');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (10, 19, '43210000000144');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (11, 20, 75.00, '32100000000133');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (11, 20, '32100000000133');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (12, 21, 80.00, '21000000000122');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (12, 21, '21000000000122');
 
-INSERT INTO Contem (IdPedido, IdProduto, PrecoProduto, IdFornecedor) VALUES (13, 22, 65.00, '10900000000111');
+INSERT INTO Contem (IdPedido, IdProduto, IdFornecedor) VALUES (13, 22, '10900000000111');
 
 
 
@@ -468,9 +448,13 @@ INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (19, 20);
 
 INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (21, 22);
 
-INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (23, 24);
+INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (21, 1);
 
-INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (25, 26);
+INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (1, 21);
+
+INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (5, 8);
+
+INSERT INTO Componente (CodigoComponente, CodigoComposto) VALUES (5, 9);
 
 
 
@@ -578,5 +562,3 @@ INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81
 INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770021', '99001122334');
 
 INSERT INTO TelefoneConsumidor (Telefone_Consumidor, Consumidor_CPF) VALUES ('81977770022', '10111213141');
-
-
