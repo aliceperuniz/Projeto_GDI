@@ -35,3 +35,12 @@ SELECT * FROM Entregador;
 DELETE FROM Entregador WHERE CPF = '91221101312';
 
 SELECT * FROM Entregador;
+
+-- Obtendo todos os produtos com preços entre 10 e 20
+SELECT * FROM ProdutoOfertado P
+WHERE P.Preco BETWEEN 10 AND 20;
+
+-- Obtendo todos os pedidos atribuídos a esses CPFs
+SELECT * FROM Pedido P
+WHERE P.CPF IN ('76543210987', '12312312300', '86586586599');
+
