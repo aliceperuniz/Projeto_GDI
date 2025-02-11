@@ -34,7 +34,7 @@ BEGIN
 	COMMIT;
     DBMS_OUTPUT.PUT_LINE('BD atualizado');
 END;
-
+/
 -- Verificando e desfazendo alterações do BD
 SELECT * FROM Entregador WHERE CPF = '11122233344';
 
@@ -44,7 +44,7 @@ SELECT * FROM Entregador WHERE CPF = '11122233344';
 
 
 -----------------------------------------------------
---- IF ELSIF ELSE
+--- IF ELSIF ELSE + FOR IN LOOP + SELECT INTO
 -----------------------------------------------------
 
 
@@ -98,7 +98,7 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('Novo preço do produto para o fornecedor ' || v_cnpj_fornecedor || ': ' || v_preco_atual);
     END LOOP;
 END;
-
+/
 
 -----------------------------------------------------
 --- CREATE OR REPLACE TRIGGER (COMANDO) 
@@ -136,7 +136,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20002, 'Este fornecedor já está cadastrado como supermercado e não pode ser cadastrado como restaurante.');
     END IF;
 END;
-
+/
 -- Testando aplicação
 INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('28560090123122', 'Restaurante Show de Massa', '52000120', 'Rua B', 300, 'Recife', '');
 INSERT INTO Supermercado (CNPJ_Forn) VALUES ('28560090123122');
@@ -153,10 +153,9 @@ WHEN (NEW.Porcentagem <= 0)
 BEGIN
     RAISE_APPLICATION_ERROR(-20001, 'Erro: O Desconto oferecido deve ser maior que zero.');
 END;
-
+/
 -- Testando aplicação
 INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('76543210000177', TO_DATE('2025-02-13', 'YYYY-MM-DD'), -6.00);
-
 
 -----------------------------------------------------
 --- CREATE PROCEDURE
@@ -265,6 +264,7 @@ BEGIN
                              ', Data de Nascimento: ' || TO_CHAR(Entregador_Temp(i).DataDeNascimento, 'DD/MM/YYYY'));
     END LOOP;
 END;
+/
 
 -----------------------------------------------------
 --- CREATE FUNCTION
@@ -278,7 +278,7 @@ BEGIN
     v_Idade := TRUNC(MONTHS_BETWEEN(SYSDATE, p_DataNascimento) / 12); -- Cálculo da idade
     RETURN v_Idade;
 END
-
+/
 SELECT Nome, Calcular_Idade(DataDeNascimento) AS Idade FROM Entregador;
 
 --------------------------------------------------------------------------------
@@ -291,7 +291,7 @@ CREATE OR REPLACE PACKAGE Pacote_Entregador AS
     -- Declaração da Função
     FUNCTION Calcular_Idade(p_DataNascimento IN DATE) RETURN NUMBER;
 END Pacote_Entregador;
-
+/
 CREATE OR REPLACE PACKAGE BODY Pacote_Entregador AS
     -- Implementação do Procedimento
     PROCEDURE Exibir_Entregador(p_CPF IN Entregador.CPF%TYPE) IS
@@ -310,10 +310,56 @@ CREATE OR REPLACE PACKAGE BODY Pacote_Entregador AS
         WHEN NO_DATA_FOUND THEN
             DBMS_OUTPUT.PUT_LINE('Entregador não encontrado.');
     END Exibir_Entregador;
-
+/
     -- Implementação da Função
     FUNCTION Calcular_Idade(p_DataNascimento IN DATE) RETURN NUMBER IS
     BEGIN
         RETURN TRUNC(MONTHS_BETWEEN(SYSDATE, p_DataNascimento) / 12);
     END Calcular_Idade;
+    /
 END Pacote_Entregador;
+/
+-----------------------------------------------------
+--- WHILE LOOP + TYPE + SELECT INTO + IF 
+-----------------------------------------------------
+
+DECLARE
+    v_idProduto Produto.IdProduto%TYPE; 
+    v_nomeProduto Produto.Nome%TYPE;     
+    -- contador para começar do primeiro produto
+    v_contador NUMBER := 1;           
+BEGIN
+    WHILE v_contador <= 10  
+    LOOP
+        SELECT IdProduto, Nome INTO v_idProduto, v_nomeProduto
+        FROM Produto
+        WHERE IdProduto = v_contador;
+
+        DBMS_OUTPUT.PUT_LINE('Produto ' || v_contador || ': ' || v_nomeProduto);
+
+        IF v_nomeProduto = 'Hot Roll' THEN
+            DBMS_OUTPUT.PUT_LINE('Hot Roll encontrado! Encerrando o loop.');
+            EXIT;  -- sair do loop
+        END IF;
+        v_contador := v_contador + 1;
+    END LOOP;
+END;
+/
+-----------------------------------------------------
+---  CASE WHEN
+-----------------------------------------------------
+
+SELECT 
+    f.Nome, 
+    p.Preco,
+    CASE 
+        WHEN p.Preco < 10 AND r.Categoria = 'Comida Brasileira' THEN 'Saboroso e Barato'
+        WHEN p.Preco < 10 THEN 'Barato'
+        WHEN p.Preco BETWEEN 10 AND 50 THEN 'Preço Justo'
+        ELSE 'Caro'
+    END AS Classificacao
+    /
+    
+FROM Restaurante r
+JOIN ProdutoOfertado p ON r.CNPJ_Forn = p.CNPJ_Forn
+JOIN Fornecedor f ON f.CNPJ = r.CNPJ_Forn;

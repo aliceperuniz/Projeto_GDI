@@ -280,6 +280,10 @@ INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (21, '210000000
 
 INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (22, '10900000000111', 65.00);
 
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (2, '23456789000111', 6.00);
+
+INSERT INTO ProdutoOfertado (IdProduto, CNPJ_Forn, Preco) VALUES (3, '12336789000111', 1.80);
+
 
 
 --INSERINDO DESCONTOS
