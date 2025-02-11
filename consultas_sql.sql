@@ -36,10 +36,6 @@ DELETE FROM Entregador WHERE CPF = '91221101312';
 
 SELECT * FROM Entregador;
 
--- Obtendo todos os pedidos atribuídos a esses CPFs
-SELECT * FROM Pedido P
-WHERE P.CPF IN ('76543210987', '12312312300', '86586586599');
-
 -- Selecionando todos pedidos que tiveram descontos
 -- INNER JOIN + NOT NULL
 SELECT P.IdPedido, P.Data, D.Porcentagem, C.Nome
@@ -76,12 +72,13 @@ WHERE PO.Preco = (
 ORDER BY F.Nome;
 
 -- Selecionando todos os pedidos feitos entre 3 e 14 de fevereiro, bem como seus descontos e as pessoas que fizeram esse pedido
--- LEFT JOIN + BETWEEN + ORDER BY
+-- LEFT JOIN + BETWEEN + ORDER BY + IN
 SELECT P.IdPedido, P.Data, D.Porcentagem, C.Nome
 FROM Pedido P
 LEFT JOIN Desconto D ON P.CNPJ = D.CNPJ_Desconto
 LEFT JOIN Consumidor C ON P.CPF = C.CPF
-WHERE P.Data BETWEEN TO_DATE('2025-02-03', 'YYYY-MM-DD') 
+WHERE P.CPF IN ('76543210987', '12312312300', '86586586599', '98765432112') AND
+P.Data BETWEEN TO_DATE('2025-02-03', 'YYYY-MM-DD') 
 AND TO_DATE('2025-02-14', 'YYYY-MM-DD')
 ORDER BY P.Data DESC;
 
@@ -123,7 +120,7 @@ WHERE P.Data > ANY (
 
 
 -- Selecionando os fornecedores localizados na Rua do Hambúrguer, Av Norte ou Rua 17 de Agsoto
--- subconsulta com IN + IN
+-- subconsulta com IN 
 SELECT F.Nome, F.Rua
 FROM Fornecedor F
 WHERE F.Rua IN (
