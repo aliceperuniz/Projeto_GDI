@@ -1,4 +1,4 @@
-# GDI AV3
+# Projeto GDI 
 - Scripts de criação e povoamento das tabelas feitas a partir do Esquema Relacional Normalizado do nosso projeto.
 - Diagrama E-R: 
 ![Diagrama EER grupo 06-2](https://github.com/user-attachments/assets/4377a6b4-40c6-4db6-b602-06e7f92b8903)
