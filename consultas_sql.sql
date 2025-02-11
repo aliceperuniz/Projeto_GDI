@@ -110,7 +110,7 @@ WHERE P.Preco > ALL (
 
 
 -- Seleciona todos os pedidos feitos depois do dia 9 de fevereiro
--- subconsulta com ALL
+-- subconsulta com ANY
 SELECT P.IdPedido, P.Data, C.Nome, F.Nome
 FROM Pedido P
 JOIN Consumidor C ON P.CPF = C.CPF
