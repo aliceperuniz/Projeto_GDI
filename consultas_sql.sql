@@ -162,3 +162,84 @@ INTERSECT
 SELECT c.Nome
 FROM Pedido p
 JOIN Consumidor c ON p.CPF = c.CPF;
+
+
+-- Determina os 5 fornecedores com maior receita total.
+-- Em seguida, lista os pedidos desses fornecedores com o valor do pedido e o valor final 
+WITH TopFornecedores AS (
+    SELECT 
+        F.CNPJ,
+        F.Nome,
+        SUM(PO.Preco) * (1 - NVL(MAX(D.Porcentagem), 0) / 100) AS ReceitaTotal
+    FROM Pedido P
+    JOIN Fornecedor F ON P.CNPJ = F.CNPJ
+    JOIN Contem CT ON P.IdPedido = CT.IdPedido
+    JOIN ProdutoOfertado PO ON CT.IdProduto = PO.IdProduto 
+                           AND CT.IdFornecedor = PO.CNPJ_Forn
+    LEFT JOIN Desconto D ON P.CNPJ = D.CNPJ_Desconto 
+                         AND P.Data = D.Data
+    GROUP BY F.CNPJ, F.Nome
+    ORDER BY ReceitaTotal DESC
+    FETCH FIRST 5 ROWS ONLY
+)
+SELECT 
+    TF.Nome AS NomeFornecedor,
+    P.IdPedido,
+    P.Data,
+    SUM(PO.Preco) AS ValorPedido,
+    NVL(MAX(D.Porcentagem), 0) AS Desconto,
+    SUM(PO.Preco) * (1 - NVL(MAX(D.Porcentagem), 0) / 100) AS ValorFinal
+FROM Pedido P
+JOIN Fornecedor F ON P.CNPJ = F.CNPJ
+JOIN TopFornecedores TF ON F.CNPJ = TF.CNPJ
+JOIN Contem CT ON P.IdPedido = CT.IdPedido
+JOIN ProdutoOfertado PO ON CT.IdProduto = PO.IdProduto 
+                       AND CT.IdFornecedor = PO.CNPJ_Forn
+LEFT JOIN Desconto D ON P.CNPJ = D.CNPJ_Desconto 
+                     AND P.Data = D.Data
+GROUP BY TF.Nome, P.IdPedido, P.Data
+ORDER BY TF.Nome, P.Data;
+
+-- Agrega os telefones de três tipos de entidades – Fornecedores, Consumidores e Entregadores:
+SELECT Nome, Telefone, Tipo
+FROM (
+    SELECT F.Nome, TF.Ddd_Fornecedor || '-' || TF.Telefone_Fornecedor AS Telefone, 'Fornecedor' AS Tipo
+    FROM TelefoneFornecedor TF
+    JOIN Fornecedor F ON TF.Fornecedor_CNPJ = F.CNPJ
+    UNION
+    SELECT C.Nome, TC.Ddd_Consumidor || '-' || TC.Telefone_Consumidor AS Telefone, 'Consumidor' AS Tipo
+    FROM TelefoneConsumidor TC
+    JOIN Consumidor C ON TC.Consumidor_CPF = C.CPF
+    UNION
+    SELECT E.Nome, TE.Ddd_Entregador || '-' || TE.Telefone_Entregador AS Telefone, 'Entregador' AS Tipo
+    FROM TelefoneEntregador TE
+    JOIN Entregador E ON TE.Entregador_CPF = E.CPF
+)
+ORDER BY Nome;
+
+-- Essa consulta identifica os pedidos que contêm mais de um produto,
+-- mostrando o nome do consumidor, data do pedido e a quantidade de produtos incluídos.
+SELECT 
+    P.IdPedido,
+    C.Nome AS NomeConsumidor,
+    P.Data,
+    COUNT(CT.IdProduto) AS QuantidadeProdutos
+FROM Pedido P
+JOIN Consumidor C ON P.CPF = C.CPF
+JOIN Contem CT ON P.IdPedido = CT.IdPedido
+GROUP BY P.IdPedido, C.Nome, P.Data
+HAVING COUNT(CT.IdProduto) > 1
+ORDER BY P.Data;
+
+-- Agrupa os consumidores pelo número de pedidos e atribui um ranking.
+SELECT *
+FROM (
+    SELECT 
+        C.Nome AS NomeConsumidor,
+        COUNT(P.IdPedido) AS TotalPedidos,
+        RANK() OVER (ORDER BY COUNT(P.IdPedido) DESC) AS Ranking
+    FROM Consumidor C
+    LEFT JOIN Pedido P ON C.CPF = P.CPF
+    GROUP BY C.Nome
+)
+ORDER BY Ranking;
