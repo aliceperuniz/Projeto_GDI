@@ -212,34 +212,35 @@ DECLARE
     CURSOR c_pedido IS
         SELECT IdPedido, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ
         FROM Pedido;
-    
+
     v_id_pedido Pedido.IdPedido%TYPE;
     v_data Pedido.Data%TYPE;
     v_hora_entrega Pedido.HoraDaEntrega%TYPE;
     v_cpf_entregador Pedido.CPF_Entregador%TYPE;
     v_cpf_consumidor Pedido.CPF%TYPE;
     v_cnpj_fornecedor Pedido.CNPJ%TYPE;
+
 BEGIN
     -- Abrindo o cursor
     OPEN c_pedido;
-    
+
+    -- Loop para percorrer os registros
     LOOP
         -- Buscando uma linha do cursor
         FETCH c_pedido INTO v_id_pedido, v_data, v_hora_entrega, v_cpf_entregador, v_cpf_consumidor, v_cnpj_fornecedor;
-        
-        -- Verifica se todos os registros foram lidos
+
+        -- Condição de saída do loop se não houver mais registros
         EXIT WHEN c_pedido%NOTFOUND;
-        
+
         -- Exibir os dados do pedido
         DBMS_OUTPUT.PUT_LINE('Pedido ID: ' || v_id_pedido);
         DBMS_OUTPUT.PUT_LINE('Data: ' || TO_CHAR(v_data, 'DD/MM/YYYY'));
-        DBMS_OUTPUT.PUT_LINE('Hora da Entrega: ' || TO_CHAR(v_hora_entrega, 'HH24:MI'));
-        DBMS_OUTPUT.PUT_LINE('CPF Entregador: ' || v_cpf_entregador);
+        DBMS_OUTPUT.PUT_LINE('Hora da Entrega: ' || NVL(TO_CHAR(v_hora_entrega, 'HH24:MI'), 'Sem horário'));
+        DBMS_OUTPUT.PUT_LINE('CPF Entregador: ' || NVL(v_cpf_entregador, 'Sem entregador'));
         DBMS_OUTPUT.PUT_LINE('CPF Consumidor: ' || v_cpf_consumidor);
         DBMS_OUTPUT.PUT_LINE('CNPJ Fornecedor: ' || v_cnpj_fornecedor);
-        DBMS_OUTPUT.PUT_LINE('-------------------------------');
     END LOOP;
-    
+
     -- Fechando o cursor
     CLOSE c_pedido;
 END;
@@ -277,7 +278,7 @@ CREATE OR REPLACE FUNCTION Calcular_Idade (
 BEGIN
     v_Idade := TRUNC(MONTHS_BETWEEN(SYSDATE, p_DataNascimento) / 12); -- Cálculo da idade
     RETURN v_Idade;
-END
+END;
 /
 SELECT Nome, Calcular_Idade(DataDeNascimento) AS Idade FROM Entregador;
 
@@ -363,3 +364,22 @@ SELECT
 FROM Restaurante r
 JOIN ProdutoOfertado p ON r.CNPJ_Forn = p.CNPJ_Forn
 JOIN Fornecedor f ON f.CNPJ = r.CNPJ_Forn;
+
+-----------------------------------------------------
+--- LOOP EXIT WHEN
+-----------------------------------------------------
+
+DECLARE
+    v_contador NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE('Iteração número: ' || v_contador);
+        
+        -- Condição de saída
+        EXIT WHEN v_contador >= 10;
+        
+        -- Incremento do contador
+        v_contador := v_contador + 1;
+    END LOOP;
+END;
+/
