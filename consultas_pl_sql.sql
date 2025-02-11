@@ -325,44 +325,101 @@ END Pacote_Entregador;
 -----------------------------------------------------
 
 DECLARE
-    v_idProduto Produto.IdProduto%TYPE; 
-    v_nomeProduto Produto.Nome%TYPE;     
-    -- contador para começar do primeiro produto
-    v_contador NUMBER := 1;           
+    -- Declarando um tipo de record para armazenar informações completas do produto
+    TYPE t_produto IS RECORD (
+        id    Produto.IdProduto%TYPE,
+        nome  Produto.Nome%TYPE,
+        preco ProdutoOfertado.Preco%TYPE
+    );
+    
+    v_produto t_produto;
+    v_contador NUMBER := 1;
+    v_max      NUMBER;
 BEGIN
-    WHILE v_contador <= 10  
-    LOOP
-        SELECT IdProduto, Nome INTO v_idProduto, v_nomeProduto
-        FROM Produto
-        WHERE IdProduto = v_contador;
-
-        DBMS_OUTPUT.PUT_LINE('Produto ' || v_contador || ': ' || v_nomeProduto);
-
-        IF v_nomeProduto = 'Hot Roll' THEN
-            DBMS_OUTPUT.PUT_LINE('Hot Roll encontrado! Encerrando o loop.');
-            EXIT;  -- sair do loop
+    -- Obter o maior IdProduto para definir o limite do loop
+    SELECT NVL(MAX(IdProduto), 0) INTO v_max FROM Produto;
+    
+    DBMS_OUTPUT.PUT_LINE('Iniciando processamento de produtos de 1 até ' || v_max);
+    
+    WHILE v_contador <= v_max LOOP
+        BEGIN
+            -- Seleciona dados do produto e seu menor preço a partir da junção entre Produto e ProdutoOfertado
+            SELECT p.IdProduto, p.Nome, MIN(po.Preco)
+              INTO v_produto.id, v_produto.nome, v_produto.preco
+              FROM Produto p
+              JOIN ProdutoOfertado po ON p.IdProduto = po.IdProduto
+             WHERE p.IdProduto = v_contador
+             GROUP BY p.IdProduto, p.Nome;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                -- Se o produto não existir ou não tiver oferta, exibe aviso e pula para o próximo
+                DBMS_OUTPUT.PUT_LINE('Produto com Id ' || v_contador || ' não encontrado ou sem oferta.');
+                v_contador := v_contador + 1;
+                CONTINUE;  -- vai para a próxima iteração
+        END;
+        
+        DBMS_OUTPUT.PUT_LINE('Produto ' || v_produto.id || ': ' || v_produto.nome || ' | Preço: ' || v_produto.preco);
+        
+        -- Condições complexas para atualizar ou exibir mensagens conforme o nome e o preço
+        IF v_produto.nome LIKE '%Roll%' THEN
+            DBMS_OUTPUT.PUT_LINE('>> Produto contém "Roll": ' || v_produto.nome);
+            IF v_produto.preco < 5 THEN
+                UPDATE ProdutoOfertado 
+                   SET Preco = 5 
+                 WHERE IdProduto = v_produto.id;
+                DBMS_OUTPUT.PUT_LINE('   Preço ajustado para 5 (valor mínimo) para o produto ' || v_produto.nome);
+            ELSIF v_produto.preco BETWEEN 5 AND 8 THEN
+                DBMS_OUTPUT.PUT_LINE('   Preço razoável para o produto ' || v_produto.nome);
+            ELSE
+                DBMS_OUTPUT.PUT_LINE('   Preço elevado para um produto "Roll": ' || v_produto.preco);
+            END IF;
+        ELSIF v_produto.preco BETWEEN 10 AND 20 THEN
+            DBMS_OUTPUT.PUT_LINE('>> Produto com preço entre 10 e 20: ' || v_produto.nome);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('>> Produto ' || v_produto.nome || ' não se enquadra em condições especiais.');
         END IF;
+        
         v_contador := v_contador + 1;
     END LOOP;
+    
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Processamento concluído!');
 END;
 /
+
 -----------------------------------------------------
 ---  CASE WHEN
 -----------------------------------------------------
 
 SELECT 
-    f.Nome, 
-    p.Preco,
+    f.Nome AS Fornecedor,
+    p.Preco AS PrecoOriginal,
+    r.Categoria,
+    d.Porcentagem AS Desconto,
     CASE 
+        WHEN p.Preco < 10 
+             AND r.Categoria = 'Comida Brasileira' 
+             AND NVL(d.Porcentagem, 0) >= 5 
+             THEN 'Saboroso, Barato e com Bom Desconto'
         WHEN p.Preco < 10 AND r.Categoria = 'Comida Brasileira' THEN 'Saboroso e Barato'
         WHEN p.Preco < 10 THEN 'Barato'
         WHEN p.Preco BETWEEN 10 AND 50 THEN 'Preço Justo'
-        ELSE 'Caro'
-    END AS Classificacao
-    
+        WHEN p.Preco > 50 
+             AND p.Preco < (SELECT AVG(Preco) FROM ProdutoOfertado) 
+             THEN 'Acima da Média, mas Competitivo'
+        WHEN p.Preco >= (SELECT AVG(Preco) FROM ProdutoOfertado)
+             THEN 'Caro'
+        ELSE 'Indefinido'
+    END AS Classificacao,
+    -- Caso aninhado para verificação adicional do preço em relação à média
+    CASE 
+        WHEN p.Preco = (SELECT AVG(Preco) FROM ProdutoOfertado) THEN 'Preço exatamente na média'
+        ELSE 'Preço fora da média'
+    END AS Observacao
 FROM Restaurante r
 JOIN ProdutoOfertado p ON r.CNPJ_Forn = p.CNPJ_Forn
-JOIN Fornecedor f ON f.CNPJ = r.CNPJ_Forn;
+JOIN Fornecedor f ON f.CNPJ = r.CNPJ_Forn
+LEFT JOIN Desconto d ON d.CNPJ_Desconto = f.CNPJ;
 
 -----------------------------------------------------
 --- LOOP EXIT WHEN
@@ -370,16 +427,33 @@ JOIN Fornecedor f ON f.CNPJ = r.CNPJ_Forn;
 
 DECLARE
     v_contador NUMBER := 1;
+    v_soma     NUMBER := 0;
+    v_limite   NUMBER := 100;  -- Limite para a soma
 BEGIN
     LOOP
-        DBMS_OUTPUT.PUT_LINE('Iteração número: ' || v_contador);
+        DBMS_OUTPUT.PUT_LINE('Início iteração ' || v_contador || ' | Soma atual: ' || v_soma);
         
-        -- Condição de saída
-        EXIT WHEN v_contador >= 10;
+        -- Atualiza a soma com uma fórmula (exemplo: soma dos dobrados do contador)
+        v_soma := v_soma + (v_contador * 2);
         
-        -- Incremento do contador
+        -- Se o contador for múltiplo de 3, verifica se a soma ultrapassou o limite
+        IF MOD(v_contador, 3) = 0 THEN
+            DBMS_OUTPUT.PUT_LINE('Iteração ' || v_contador || ' é múltiplo de 3. Verificando soma...');
+            IF v_soma > v_limite THEN
+                DBMS_OUTPUT.PUT_LINE('Soma (' || v_soma || ') ultrapassou o limite (' || v_limite || '). Encerrando o loop na iteração ' || v_contador);
+                EXIT;
+            END IF;
+        END IF;
+        
+        DBMS_OUTPUT.PUT_LINE('Fim iteração ' || v_contador || ' | Soma atualizada: ' || v_soma);
+        
         v_contador := v_contador + 1;
+        
+        -- Saída de segurança: se o contador ultrapassar 20, encerra o loop
+        EXIT WHEN v_contador > 20;
     END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('Loop finalizado com soma final: ' || v_soma);
 END;
 /
 
