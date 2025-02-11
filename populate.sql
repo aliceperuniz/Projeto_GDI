@@ -131,6 +131,13 @@ INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUE
 
 INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('10900000000111', 'Churrascaria Gaúcha', '52090909', 'Avenida Churrasco', 90, 'Recife', '');
 
+INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('11122233344456', 'Restaurante do Norte', '52011100', 'Av. Norte', 201, 'Recife', '');
+
+INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('11122233344457', 'Mercadinho Norte', '52011100', 'Av. Norte', 202, 'Recife', '');
+
+INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('11122233344458', 'Padaria Av. Norte', '52011100', 'Av. Norte', 203, 'Recife', '');
+
+INSERT INTO Fornecedor (CNPJ, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('11122233344459', 'Mercado Popular Norte', '52011100', 'Av. Norte', 204, 'Recife', '');
 
 
 --INSERINDO SUPERMERCADOS
@@ -155,7 +162,9 @@ INSERT INTO Supermercado (CNPJ_Forn) VALUES ('76543210000177');
 
 INSERT INTO Supermercado (CNPJ_Forn) VALUES ('65432100000166');
 
+INSERT INTO Supermercado (CNPJ_Forn) VALUES ('11122233344457');
 
+INSERT INTO Supermercado (CNPJ_Forn) VALUES ('11122233344459');
 
 
 --INSERINDO RESTAURANTES
@@ -180,6 +189,9 @@ INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('21000000000122', 'Comida
 
 INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('10900000000111', 'Comida Árabe');
 
+INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('11122233344456', 'Comida Brasileira');
+
+INSERT INTO Restaurante (CNPJ_Forn, Categoria) VALUES ('11122233344458', 'Comida Iberica');
 
 
 --INSERINDO PRODUTOS
