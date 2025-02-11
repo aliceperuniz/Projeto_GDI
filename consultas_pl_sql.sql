@@ -311,13 +311,13 @@ CREATE OR REPLACE PACKAGE BODY Pacote_Entregador AS
         WHEN NO_DATA_FOUND THEN
             DBMS_OUTPUT.PUT_LINE('Entregador não encontrado.');
     END Exibir_Entregador;
-/
+
     -- Implementação da Função
     FUNCTION Calcular_Idade(p_DataNascimento IN DATE) RETURN NUMBER IS
     BEGIN
         RETURN TRUNC(MONTHS_BETWEEN(SYSDATE, p_DataNascimento) / 12);
     END Calcular_Idade;
-    /
+    
 END Pacote_Entregador;
 /
 -----------------------------------------------------
@@ -359,7 +359,6 @@ SELECT
         WHEN p.Preco BETWEEN 10 AND 50 THEN 'Preço Justo'
         ELSE 'Caro'
     END AS Classificacao
-    /
     
 FROM Restaurante r
 JOIN ProdutoOfertado p ON r.CNPJ_Forn = p.CNPJ_Forn
