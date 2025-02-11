@@ -61,14 +61,12 @@ SELECT tf.Telefone_Fornecedor, f.CEP
 FROM Fornecedor f INNER JOIN TelefoneFornecedor tf
 ON f.CNPJ = tf.Fornecedor_CNPJ WHERE F.CEP LIKE '5%';
 
--- Selecionando o maior preço dos produtos ofertados pelos fornecedores da Rua do Hambúrguer, Av. Norte e Rua 17 de Agosto4
--- e também uma subconsulta com IN
+-- Selecionando o maior preço dos produtos ofertados pelos fornecedores da Rua do Hambúrguer, Av. Norte e Rua 17 de Agosto
 SELECT MAX(Preco) FROM ProdutoOfertado 
 WHERE CNPJ_Forn IN (SELECT CNPJ FROM Fornecedor 
 WHERE Rua IN ('Rua do Hambúrguer', 'Av. Norte', 'Rua 17 de Agosto'));
 
 -- Selecionando o menor preço dos produtos ofertados pelos fornecedores da Rua do Hambúrguer, Av. Norte e Rua 17 de Agosto
--- e também uma subconsulta com IN
 SELECT MIN(Preco) FROM ProdutoOfertado 
 WHERE CNPJ_Forn IN (SELECT CNPJ FROM Fornecedor 
 WHERE Rua IN ('Rua do Hambúrguer', 'Av. Norte', 'Rua 17 de Agosto'));
@@ -110,7 +108,7 @@ WHERE P.Preco > ALL (
 
 
 -- Seleciona todos os pedidos feitos depois do dia 9 de fevereiro
--- subconsulta com ANY
+-- subconsulta com ALL
 SELECT P.IdPedido, P.Data, C.Nome, F.Nome
 FROM Pedido P
 JOIN Consumidor C ON P.CPF = C.CPF
@@ -121,4 +119,14 @@ WHERE P.Data > ANY (
     WHERE Data > TO_DATE('2025-02-09', 'YYYY-MM-DD')
 );
 
+
+-- Selecionando os fornecedores localizados na Rua do Hambúrguer, Av Norte ou Rua 17 de Agosto e sortando em ordem alfabética
+SELECT F.Nome, F.Rua
+FROM Fornecedor F
+WHERE F.Rua IN (
+    SELECT Rua
+    FROM Fornecedor
+    WHERE Rua IN ('Rua do Hambúrguer', 'Av. Norte', 'Rua 17 de Agosto')
+)
+ORDER BY F.Nome ASC;
 
