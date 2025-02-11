@@ -156,3 +156,51 @@ END;
 
 -- Testando aplicação
 INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('76543210000177', TO_DATE('2025-02-13', 'YYYY-MM-DD'), -6.00);
+
+
+-----------------------------------------------------
+--- CREATE PROCEDURE
+-----------------------------------------------------
+CREATE OR REPLACE PROCEDURE ConsultarProdutosPorFornecedor (p_CNPJ_Forn CHAR) IS
+    CURSOR c_produtos IS
+        SELECT p.Nome AS Nome_Produto,
+               po.Preco AS Preco_Produto
+        FROM Produto p
+        JOIN ProdutoOfertado po ON p.IdProduto = po.IdProduto
+        WHERE po.CNPJ_Forn = p_CNPJ_Forn;
+        
+    v_nome_produto VARCHAR(100);
+    v_preco_produto DECIMAL(10, 2);
+    v_nome_fornecedor VARCHAR(100);
+BEGIN
+    -- Consulta o nome do fornecedor
+    SELECT f.Nome
+    INTO v_nome_fornecedor
+    FROM Fornecedor f
+    WHERE f.CNPJ = p_CNPJ_Forn;
+    
+    -- Imprime o nome do fornecedor
+    DBMS_OUTPUT.PUT_LINE('Fornecedor: ' || v_nome_fornecedor);
+    
+    -- Consultar os produtos e preços
+    OPEN c_produtos;
+    
+    LOOP
+        FETCH c_produtos INTO v_nome_produto, v_preco_produto;
+        
+        EXIT WHEN c_produtos%NOTFOUND;
+        
+        DBMS_OUTPUT.PUT_LINE('Produto: ' || v_nome_produto || ' - Preço: R$ ' || TO_CHAR(v_preco_produto, '999,999.99'));
+    END LOOP;
+    
+    CLOSE c_produtos;
+END;
+/
+
+-- executando o procedimento
+BEGIN
+    ConsultarProdutosPorFornecedor('34567890000122');
+	ConsultarProdutosPorFornecedor('00056789000111');
+	ConsultarProdutosPorFornecedor('23456756700111');
+END;
+/
