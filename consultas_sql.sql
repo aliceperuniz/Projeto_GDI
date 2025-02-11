@@ -36,62 +36,64 @@ DELETE FROM Entregador WHERE CPF = '91221101312';
 
 SELECT * FROM Entregador;
 
--- Obtendo todos os produtos com preços entre 10 e 20
-SELECT * FROM ProdutoOfertado P
-WHERE P.Preco BETWEEN 10 AND 20;
-
 -- Obtendo todos os pedidos atribuídos a esses CPFs
 SELECT * FROM Pedido P
 WHERE P.CPF IN ('76543210987', '12312312300', '86586586599');
 
--- Selecionando todos os consumidores que nasceram em março
-SELECT * FROM Consumidor
-WHERE TO_CHAR(DataDeNascimento, 'MM') LIKE '03';
+-- Selecionando todos pedidos que tiveram descontos
+-- INNER JOIN + NOT NULL
+SELECT P.IdPedido, P.Data, D.Porcentagem, C.Nome
+FROM Pedido P
+INNER JOIN Desconto D ON P.CNPJ = D.CNPJ_Desconto
+INNER JOIN Consumidor C ON P.CPF = C.CPF
+WHERE D.Porcentagem IS NOT NULL
+ORDER BY P.Data DESC;
 
--- Selecionando todos os consumidores cujo complemento seja NULL
-SELECT * FROM Consumidor 
-WHERE Complemento IS NULL;
+-- Selecionando o produto ofertado com maior preço de cada fornecedor
+-- INNER JOIN + MAX + ORDER BY
+SELECT F.Nome, PR.Nome, PO.Preco
+FROM ProdutoOfertado PO
+INNER JOIN Produto PR ON PO.IdProduto = PR.IdProduto
+INNER JOIN Fornecedor F ON PO.CNPJ_Forn = F.CNPJ
+WHERE PO.Preco = (
+    SELECT MIN(PO2.Preco)
+    FROM ProdutoOfertado PO2
+    WHERE PO2.CNPJ_Forn = PO.CNPJ_Forn
+)
+ORDER BY F.Nome;
 
--- Selecionando todos os consumidores cujo complemento não seja NULL
-SELECT * FROM Consumidor 
-WHERE Complemento IS NOT NULL;
+-- Selecionando o produto ofertado com menor preço de cada fornecedor
+-- INNER JOIN + MIN + ORDER BY
+SELECT F.Nome, PR.Nome, PO.Preco
+FROM ProdutoOfertado PO
+INNER JOIN Produto PR ON PO.IdProduto = PR.IdProduto
+INNER JOIN Fornecedor F ON PO.CNPJ_Forn = F.CNPJ
+WHERE PO.Preco = (
+    SELECT MIN(PO2.Preco)
+    FROM ProdutoOfertado PO2
+    WHERE PO2.CNPJ_Forn = PO.CNPJ_Forn
+)
+ORDER BY F.Nome;
 
--- Selecionando os telefones dos fornecedores cujo CEP comece com 5
-SELECT tf.Telefone_Fornecedor, f.CEP
-FROM Fornecedor f INNER JOIN TelefoneFornecedor tf
-ON f.CNPJ = tf.Fornecedor_CNPJ WHERE F.CEP LIKE '5%';
-
--- Selecionando o maior preço dos produtos ofertados pelos fornecedores da Rua do Hambúrguer, Av. Norte e Rua 17 de Agosto
-SELECT MAX(Preco) FROM ProdutoOfertado 
-WHERE CNPJ_Forn IN (SELECT CNPJ FROM Fornecedor 
-WHERE Rua IN ('Rua do Hambúrguer', 'Av. Norte', 'Rua 17 de Agosto'));
-
--- Selecionando o menor preço dos produtos ofertados pelos fornecedores da Rua do Hambúrguer, Av. Norte e Rua 17 de Agosto
-SELECT MIN(Preco) FROM ProdutoOfertado 
-WHERE CNPJ_Forn IN (SELECT CNPJ FROM Fornecedor 
-WHERE Rua IN ('Rua do Hambúrguer', 'Av. Norte', 'Rua 17 de Agosto'));
-
--- Selecionando a média dos descontos ofertados no dia 02 (independente de mês e ano)
-SELECT AVG(Porcentagem) FROM Desconto
-WHERE TO_CHAR(Data, 'DD') LIKE '02';
-
--- Contando quantos pedidos foram feitos entre 11 e 15 de fevereiro de 2025
-SELECT COUNT(*) FROM Pedido 
-WHERE Data BETWEEN TO_DATE('2025-02-11', 'YYYY-MM-DD') AND TO_DATE('2025-02-15', 'YYYY-MM-DD');
-
--- Selecionando todos os pedidos e os descontos existentes, ordenado pelo mais recente - menos recente
-SELECT P.IdPedido, P.Data, D.Porcentagem
+-- Selecionando todos os pedidos feitos entre 3 e 14 de fevereiro, bem como seus descontos e as pessoas que fizeram esse pedido
+-- LEFT JOIN + BETWEEN + ORDER BY
+SELECT P.IdPedido, P.Data, D.Porcentagem, C.Nome
 FROM Pedido P
 LEFT JOIN Desconto D ON P.CNPJ = D.CNPJ_Desconto
+LEFT JOIN Consumidor C ON P.CPF = C.CPF
+WHERE P.Data BETWEEN TO_DATE('2025-02-03', 'YYYY-MM-DD') 
+AND TO_DATE('2025-02-14', 'YYYY-MM-DD')
 ORDER BY P.Data DESC;
 
 -- Selecionando todos os nomes de fornecedores que oferecem produtos acima da média dos preços dos produtos ofertados
-SELECT F.Nome 
+-- subconsulta com operador relacional + AVG
+SELECT F.Nome, PR.Nome, P.Preco
 FROM Fornecedor F
-WHERE F.CNPJ IN (
-    SELECT P.CNPJ_Forn 
-    FROM ProdutoOfertado P 
-    WHERE P.Preco > (SELECT AVG(Preco) FROM ProdutoOfertado)
+JOIN ProdutoOfertado P ON F.CNPJ = P.CNPJ_Forn
+JOIN Produto PR ON P.IdProduto = PR.IdProduto
+WHERE P.Preco > (
+    SELECT AVG(Preco) 
+    FROM ProdutoOfertado
 );
 
 -- Seleciona todos os produtos ofertados com preço maior que 60
@@ -108,7 +110,7 @@ WHERE P.Preco > ALL (
 
 
 -- Seleciona todos os pedidos feitos depois do dia 9 de fevereiro
--- subconsulta com ALL
+-- subconsulta com ANY
 SELECT P.IdPedido, P.Data, C.Nome, F.Nome
 FROM Pedido P
 JOIN Consumidor C ON P.CPF = C.CPF
@@ -121,7 +123,7 @@ WHERE P.Data > ANY (
 
 
 -- Selecionando os fornecedores localizados na Rua do Hambúrguer, Av Norte ou Rua 17 de Agsoto
--- subconsulta com IN
+-- subconsulta com IN + IN
 SELECT F.Nome, F.Rua
 FROM Fornecedor F
 WHERE F.Rua IN (
@@ -132,7 +134,7 @@ WHERE F.Rua IN (
 ORDER BY F.Nome ASC;
 
 -- Selecionando e Agrupando as Ruas que iniciam com "Rua" ou "Av" e suas quantidades de fornecedores que já tiveram pedidos
--- having + group by
+-- having + group by + COUNT + LIKE
 SELECT F.Rua, COUNT(*)
 FROM Fornecedor F
 JOIN Pedido P ON F.CNPJ = P.CNPJ
@@ -151,7 +153,7 @@ SELECT * FROM View_Produtos_Fornecedor;
 
 
 -- Buscando consumidores que realizaram pedidos e estão na mesma cidade de um supermercado, via intersect:
--- intersect
+-- intersect + IN
 SELECT c.Nome
 FROM Consumidor c
 WHERE c.Cidade IN (
