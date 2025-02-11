@@ -204,3 +204,44 @@ BEGIN
 	ConsultarProdutosPorFornecedor('23456756700111');
 END;
 /
+
+-----------------------------------------------------
+--- CURSOR (OPEN, FETCH, CLOSE)
+-----------------------------------------------------
+
+DECLARE
+    CURSOR c_pedido IS
+        SELECT IdPedido, Data, HoraDaEntrega, CPF_Entregador, CPF, CNPJ
+        FROM Pedido;
+    
+    v_id_pedido Pedido.IdPedido%TYPE;
+    v_data Pedido.Data%TYPE;
+    v_hora_entrega Pedido.HoraDaEntrega%TYPE;
+    v_cpf_entregador Pedido.CPF_Entregador%TYPE;
+    v_cpf_consumidor Pedido.CPF%TYPE;
+    v_cnpj_fornecedor Pedido.CNPJ%TYPE;
+BEGIN
+    -- Abrindo o cursor
+    OPEN c_pedido;
+    
+    LOOP
+        -- Buscando uma linha do cursor
+        FETCH c_pedido INTO v_id_pedido, v_data, v_hora_entrega, v_cpf_entregador, v_cpf_consumidor, v_cnpj_fornecedor;
+        
+        -- Verifica se todos os registros foram lidos
+        EXIT WHEN c_pedido%NOTFOUND;
+        
+        -- Exibir os dados do pedido
+        DBMS_OUTPUT.PUT_LINE('Pedido ID: ' || v_id_pedido);
+        DBMS_OUTPUT.PUT_LINE('Data: ' || TO_CHAR(v_data, 'DD/MM/YYYY'));
+        DBMS_OUTPUT.PUT_LINE('Hora da Entrega: ' || TO_CHAR(v_hora_entrega, 'HH24:MI'));
+        DBMS_OUTPUT.PUT_LINE('CPF Entregador: ' || v_cpf_entregador);
+        DBMS_OUTPUT.PUT_LINE('CPF Consumidor: ' || v_cpf_consumidor);
+        DBMS_OUTPUT.PUT_LINE('CNPJ Fornecedor: ' || v_cnpj_fornecedor);
+        DBMS_OUTPUT.PUT_LINE('-------------------------------');
+    END LOOP;
+    
+    -- Fechando o cursor
+    CLOSE c_pedido;
+END;
+/
