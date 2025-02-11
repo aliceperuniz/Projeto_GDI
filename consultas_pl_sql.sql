@@ -1,5 +1,5 @@
 -----------------------------------------------------
---- RECORD
+--- RECORD + BLOCO ANÔNIMO + SELECT INTO + %TYPE
 -----------------------------------------------------
 
 -- Armazenando uma linha inteira da tabela Entregador e atualizando o nome do entregador
@@ -245,3 +245,75 @@ BEGIN
     CLOSE c_pedido;
 END;
 /
+
+-----------------------------------------------------
+--- TABLE + FOR + %ROWTYPE
+-----------------------------------------------------
+DECLARE
+    TYPE EntregadorTable IS TABLE OF Entregador%ROWTYPE;
+    Entregador_Temp EntregadorTable;
+BEGIN
+    -- Selecionando os entregadores nascidos depois do ano 2000
+    SELECT * BULK COLLECT INTO Entregador_Temp 
+    FROM Entregador 
+    WHERE EXTRACT(YEAR FROM DataDeNascimento) > 2000;
+
+    -- Exibir os entregadores
+    FOR i IN Entregador_Temp.FIRST .. Entregador_Temp.LAST LOOP
+        DBMS_OUTPUT.PUT_LINE('CPF: ' || Entregador_Temp(i).CPF || 
+                             ', Nome: ' || Entregador_Temp(i).Nome || 
+                             ', Data de Nascimento: ' || TO_CHAR(Entregador_Temp(i).DataDeNascimento, 'DD/MM/YYYY'));
+    END LOOP;
+END;
+
+-----------------------------------------------------
+--- CREATE FUNCTION
+-----------------------------------------------------
+
+CREATE OR REPLACE FUNCTION Calcular_Idade (
+    p_DataNascimento IN DATE
+) RETURN NUMBER IS
+    v_Idade NUMBER;
+BEGIN
+    v_Idade := TRUNC(MONTHS_BETWEEN(SYSDATE, p_DataNascimento) / 12); -- Cálculo da idade
+    RETURN v_Idade;
+END
+
+SELECT Nome, Calcular_Idade(DataDeNascimento) AS Idade FROM Entregador;
+
+--------------------------------------------------------------------------------
+--- CREATE OR REPLACE PACKAGE + CREATE OR REPLACE PACKAGE BODY + EXCEPTION WHEN
+--------------------------------------------------------------------------------
+CREATE OR REPLACE PACKAGE Pacote_Entregador AS
+    -- Declaração do Procedimento
+    PROCEDURE Exibir_Entregador(p_CPF IN Entregador.CPF%TYPE);
+
+    -- Declaração da Função
+    FUNCTION Calcular_Idade(p_DataNascimento IN DATE) RETURN NUMBER;
+END Pacote_Entregador;
+
+CREATE OR REPLACE PACKAGE BODY Pacote_Entregador AS
+    -- Implementação do Procedimento
+    PROCEDURE Exibir_Entregador(p_CPF IN Entregador.CPF%TYPE) IS
+        v_Nome Entregador.Nome%TYPE;
+        v_DataNascimento Entregador.DataDeNascimento%TYPE;
+    BEGIN
+        -- Buscar dados do entregador
+        SELECT Nome, DataDeNascimento INTO v_Nome, v_DataNascimento
+        FROM Entregador WHERE CPF = p_CPF;
+
+        -- Exibir dados
+        DBMS_OUTPUT.PUT_LINE('Nome: ' || v_Nome);
+        DBMS_OUTPUT.PUT_LINE('Data de Nascimento: ' || TO_CHAR(v_DataNascimento, 'DD/MM/YYYY'));
+        DBMS_OUTPUT.PUT_LINE('Idade: ' || Calcular_Idade(v_DataNascimento));
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('Entregador não encontrado.');
+    END Exibir_Entregador;
+
+    -- Implementação da Função
+    FUNCTION Calcular_Idade(p_DataNascimento IN DATE) RETURN NUMBER IS
+    BEGIN
+        RETURN TRUNC(MONTHS_BETWEEN(SYSDATE, p_DataNascimento) / 12);
+    END Calcular_Idade;
+END Pacote_Entregador;
