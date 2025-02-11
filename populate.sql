@@ -84,6 +84,9 @@ INSERT INTO Consumidor (CPF, DataDeNascimento, Nome, CEP, Rua, Numero, Cidade, C
 
 INSERT INTO Consumidor (CPF, DataDeNascimento, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('10111213141', TO_DATE('1984-07-07', 'YYYY-MM-DD'), 'Lorena Alves', '52099900', 'Travessa do Parque', 909, 'Recife', 'Casa 9');
 
+INSERT INTO Consumidor (CPF, DataDeNascimento, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('23430219012', TO_DATE('1985-07-15', 'YYYY-MM-DD'), 'Guto Menezes', '50000000', 'Rua Central', 456, 'Olinda', NULL);
+
+INSERT INTO Consumidor (CPF, DataDeNascimento, Nome, CEP, Rua, Numero, Cidade, Complemento) VALUES ('34567890123', TO_DATE('1998-03-22', 'YYYY-MM-DD'), 'Moisés Ribeiro', '60000000', 'Avenida Norte', 789, 'Jaboatão', NULL);
 
 
 --INSERINDO FORNECEDORES
