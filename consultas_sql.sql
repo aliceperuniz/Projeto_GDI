@@ -120,7 +120,8 @@ WHERE P.Data > ANY (
 );
 
 
--- Selecionando os fornecedores localizados na Rua do Hambúrguer, Av Norte ou Rua 17 de Agosto e sortando em ordem alfabética
+-- Selecionando os fornecedores localizados na Rua do Hambúrguer, Av Norte ou Rua 17 de Agsoto
+-- subconsulta com IN
 SELECT F.Nome, F.Rua
 FROM Fornecedor F
 WHERE F.Rua IN (
@@ -130,3 +131,11 @@ WHERE F.Rua IN (
 )
 ORDER BY F.Nome ASC;
 
+-- Selecionando e Agrupando as Ruas que iniciam com "Rua" ou "Av" e suas quantidades de fornecedores que já tiveram pedidos
+-- having + group by
+SELECT F.Rua, COUNT(*)
+FROM Fornecedor F
+JOIN Pedido P ON F.CNPJ = P.CNPJ
+WHERE (F.Rua LIKE 'Rua%' OR F.Rua LIKE 'Av%')
+GROUP BY F.Rua
+HAVING COUNT(P.IdPedido) > 0;
