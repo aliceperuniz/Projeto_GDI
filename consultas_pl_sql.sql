@@ -382,3 +382,54 @@ BEGIN
     END LOOP;
 END;
 /
+
+-----------------------------------------------------
+--- IN, OUT e IN OUT (em um PROCEDURE)
+-----------------------------------------------------
+CREATE OR REPLACE PROCEDURE Aplicar_Desconto_Fornecedor (
+    p_CNPJ IN Fornecedor.CNPJ%TYPE,  -- Entrada (fornecedor)
+    p_Preco IN OUT NUMBER,  -- Entrada e saída (preço com desconto)
+    p_Diferenca OUT NUMBER  -- Apenas saída (diferença entre preços)
+) IS
+    v_Desconto NUMBER := 0; -- Variável para armazenar o desconto
+    v_PrecoOriginal NUMBER; -- Variável para armazenar o preço original
+BEGIN
+    -- Armazena o preço original antes do desconto
+    v_PrecoOriginal := p_Preco;
+
+    -- Busca o desconto do fornecedor se existir
+    BEGIN
+        SELECT Porcentagem INTO v_Desconto 
+        FROM Desconto 
+        WHERE CNPJ_Desconto = p_CNPJ;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            v_Desconto := 0; -- Se não houver desconto, assume 0%
+    END;
+
+    -- Aplica o desconto ao preço
+    p_Preco := p_Preco * (1 - v_Desconto / 100);
+
+    -- Calcula a diferença entre o preço original e o novo preço
+    p_Diferenca := v_PrecoOriginal - p_Preco;
+
+    -- Exibe as informações no console
+    DBMS_OUTPUT.PUT_LINE('CNPJ: ' || p_CNPJ);
+    DBMS_OUTPUT.PUT_LINE('Preço Original: ' || v_PrecoOriginal);
+    DBMS_OUTPUT.PUT_LINE('Desconto Aplicado: ' || v_Desconto || '%');
+    DBMS_OUTPUT.PUT_LINE('Novo Preço: ' || p_Preco);
+    DBMS_OUTPUT.PUT_LINE('Diferença: ' || p_Diferenca);
+END Aplicar_Desconto_Fornecedor;
+/
+DECLARE
+    v_Preco NUMBER := 200.00;  -- Preço original do produto
+    v_Diferenca NUMBER;  -- Variável para armazenar a diferença de preços
+BEGIN
+    -- Chamando a procedure com um CNPJ específico
+    Aplicar_Desconto_Fornecedor('11122233344455', v_Preco, v_Diferenca);
+
+    -- Exibir os valores finais
+    DBMS_OUTPUT.PUT_LINE('Novo Preço Final: ' || v_Preco);
+    DBMS_OUTPUT.PUT_LINE('Diferença de Preço: ' || v_Diferenca);
+END;
+/
