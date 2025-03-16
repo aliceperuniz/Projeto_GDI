@@ -151,6 +151,11 @@ INSERT INTO tb_produtoOfertado VALUES (
   7.25
 );
 INSERT INTO tb_produtoOfertado VALUES (
+  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 11),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111'),
+  7.25
+);
+INSERT INTO tb_produtoOfertado VALUES (
   (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 12),
   (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '12121212121212'),
   9.90
@@ -281,80 +286,97 @@ INSERT INTO tb_pedido VALUES (
 );
 
 -- Povoamento da tabela tb_contem
+
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 1),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 1),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 1 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 1) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111' FETCH FIRST 1 ROW ONLY)
+);
+
+INSERT INTO tb_contem VALUES (
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 1 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 11) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 1),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 11),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 2 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 2) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '22222222222222' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 2),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 2),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '22222222222222')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 3 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 3) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '33333333333333' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 3),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 3),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '33333333333333')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 4 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 4) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '44444444444444' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 4),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 4),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '44444444444444')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 5 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 5) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '55555555555555' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 5),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 5),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '55555555555555')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 6 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 6) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '66666666666666' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 6),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 6),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '66666666666666')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 7 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 7) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '77777777777777' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 7),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 7),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '77777777777777')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 8 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 8) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '88888888888888' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 8),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 8),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '88888888888888')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 9 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 9) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '99999999999999' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 9),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 9),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '99999999999999')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 10 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 10) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '10101010101010' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 10),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 10),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '10101010101010')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 11 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 11) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111112' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 11),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 11),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111112')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 12 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 12) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '12121212121212' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 12),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 12),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '12121212121212')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 13 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 13) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '13131313131313' FETCH FIRST 1 ROW ONLY)
 );
 INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 13),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 13),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '13131313131313')
-);
-INSERT INTO tb_contem VALUES (
-  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 14),
-  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 14),
-  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '14141414141414')
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 14 FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(po) FROM tb_produtoOfertado po 
+   WHERE po.IdProduto = (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 14) FETCH FIRST 1 ROW ONLY),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '14141414141414' FETCH FIRST 1 ROW ONLY)
 );
 
 -- Povoamento da tabela tb_telefoneEntregador

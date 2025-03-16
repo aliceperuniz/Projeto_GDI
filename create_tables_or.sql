@@ -45,10 +45,30 @@ CREATE OR REPLACE TYPE tp_consumidor AS OBJECT (
     Rua VARCHAR(100),
     Numero INT,
     Cidade VARCHAR(50),
-    Complemento VARCHAR(50)
+    Complemento VARCHAR(50),
+    MEMBER PROCEDURE detalhesConsumidor
 );
 /
 
+CREATE OR REPLACE TYPE BODY tp_consumidor AS
+    MEMBER PROCEDURE detalhesConsumidor IS
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('CPF: ' || SELF.CPF);
+        DBMS_OUTPUT.PUT_LINE('Nome: ' || SELF.Nome);
+        DBMS_OUTPUT.PUT_LINE('Data de Nascimento: ' || TO_CHAR(SELF.DataDeNascimento, 'DD/MM/YYYY'));
+        DBMS_OUTPUT.PUT_LINE('Endereço: ' || SELF.Rua || ', ' || SELF.Numero || ', ' || SELF.Cidade || ', ' || SELF.CEP);
+        DBMS_OUTPUT.PUT_LINE('Complemento: ' || SELF.Complemento);
+    END;
+END;
+/
+
+DECLARE
+    consumidor tp_consumidor;
+BEGIN
+    consumidor := tp_consumidor('12345678901', TO_DATE('2004-01-30', 'YYYY-MM-DD'), 'Maria', '12345678', 'Rua A', 123, 'Cidade A', 'Complemento A');
+    consumidor.detalhesConsumidor();
+END;
+/
 CREATE TABLE tb_consumidor OF tp_consumidor (
     CPF PRIMARY KEY,
     DataDeNascimento NOT NULL,
@@ -190,19 +210,19 @@ CREATE TABLE tb_pedido OF tp_pedido (
 
 CREATE OR REPLACE TYPE tp_contem AS OBJECT (
     IdPedido REF tp_pedido,
-    IdProduto REF tp_produto,
+    IdProduto REF tp_produtoOfertado,
     IdFornecedor REF tp_fornecedor
-);
+    );
 /
 
 CREATE TABLE tb_contem OF tp_contem(
    -- CONSTRAINT PK_Contem PRIMARY KEY (IdPedido, IdProduto, IdFornecedor),
     IdPedido WITH ROWID REFERENCES tb_pedido NOT NULL,
-    IdProduto WITH ROWID REFERENCES tb_produto NOT NULL,
+    IdProduto WITH ROWID REFERENCES tb_produtoOfertado NOT NULL,
     IdFornecedor WITH ROWID REFERENCES tb_fornecedor NOT NULL
 );
 /
-    
+
 CREATE OR REPLACE TYPE tp_telefone AS OBJECT (
     Ddd CHAR(2),
     Numero CHAR(9)
@@ -217,7 +237,7 @@ CREATE OR REPLACE TYPE tp_telefoneEntregador UNDER tp_telefone (
 
 CREATE TABLE tb_telefoneEntregador OF tp_telefoneEntregador (
     CONSTRAINT PK_TelefoneEntregador PRIMARY KEY (Numero, Ddd),
-    CPF SCOPE IS tb_entregador
+    CPF SCOPE IS tb_entregador NOT NULL
 );
 /
 
@@ -228,7 +248,7 @@ CREATE OR REPLACE TYPE tp_telefoneConsumidor UNDER tp_telefone (
 
 CREATE TABLE tb_telefoneConsumidor OF tp_telefoneConsumidor (
     CONSTRAINT PK_TelefoneConsumidor PRIMARY KEY (Numero, Ddd),
-    CPF SCOPE IS tb_consumidor
+    CPF SCOPE IS tb_consumidor NOT NULL
 );
 /
 
@@ -239,7 +259,7 @@ CREATE OR REPLACE TYPE tp_telefoneFornecedor UNDER tp_telefone (
 
 CREATE TABLE tb_telefoneFornecedor OF tp_telefoneFornecedor (
     CONSTRAINT PK_TelefoneFornecedor PRIMARY KEY (Numero, Ddd),
-    CNPJ SCOPE IS tb_fornecedor
+    CNPJ SCOPE IS tb_fornecedor NOT NULL
 );
 /
 
