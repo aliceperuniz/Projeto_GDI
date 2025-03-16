@@ -287,6 +287,11 @@ INSERT INTO tb_contem VALUES (
   (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111')
 );
 INSERT INTO tb_contem VALUES (
+  (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 1),
+  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 11),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111')
+);
+INSERT INTO tb_contem VALUES (
   (SELECT REF(ped) FROM tb_pedido ped WHERE ped.IdPedido = 2),
   (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 2),
   (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '22222222222222')
