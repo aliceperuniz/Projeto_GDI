@@ -47,28 +47,20 @@ ORDER BY P.Data DESC;
 
 -- Selecionando o produto ofertado com maior preço de cada fornecedor
 -- INNER JOIN + MAX + ORDER BY
-SELECT F.Nome, PR.Nome, PO.Preco
-FROM ProdutoOfertado PO
-INNER JOIN Produto PR ON PO.IdProduto = PR.IdProduto
-INNER JOIN Fornecedor F ON PO.CNPJ_Forn = F.CNPJ
-WHERE PO.Preco = (
-    SELECT MIN(PO2.Preco)
-    FROM ProdutoOfertado PO2
-    WHERE PO2.CNPJ_Forn = PO.CNPJ_Forn
-)
+SELECT F.Nome, MAX(PO.Preco)
+FROM Fornecedor F
+INNER JOIN ProdutoOfertado PO ON F.CNPJ = PO.CNPJ_Forn
+INNER JOIN Produto P ON P.IdProduto = PO.IdProduto
+GROUP BY F.Nome
 ORDER BY F.Nome;
 
 -- Selecionando o produto ofertado com menor preço de cada fornecedor
 -- INNER JOIN + MIN + ORDER BY
-SELECT F.Nome, PR.Nome, PO.Preco
-FROM ProdutoOfertado PO
-INNER JOIN Produto PR ON PO.IdProduto = PR.IdProduto
-INNER JOIN Fornecedor F ON PO.CNPJ_Forn = F.CNPJ
-WHERE PO.Preco = (
-    SELECT MIN(PO2.Preco)
-    FROM ProdutoOfertado PO2
-    WHERE PO2.CNPJ_Forn = PO.CNPJ_Forn
-)
+SELECT F.Nome, MIN(PO.Preco)
+FROM Fornecedor F
+INNER JOIN ProdutoOfertado PO ON F.CNPJ = PO.CNPJ_Forn
+INNER JOIN Produto P ON P.IdProduto = PO.IdProduto
+GROUP BY F.Nome
 ORDER BY F.Nome;
 
 -- Selecionando todos os pedidos feitos entre 3 e 14 de fevereiro, bem como seus descontos e as pessoas que fizeram esse pedido
@@ -93,42 +85,46 @@ WHERE P.Preco > (
     FROM ProdutoOfertado
 );
 
--- Seleciona todos os produtos ofertados com preço maior que 60
+-- Seleciona todos os produtos ofertados por RESTAURANTES com preço maior do que o preço de todos os produtos ofertados pelas padarias
 -- subconsulta com ALL
-SELECT PR.Nome, P.Preco, F.Nome
-FROM ProdutoOfertado P
-JOIN Produto PR ON P.IdProduto = PR.IdProduto
-JOIN Fornecedor F ON P.CNPJ_Forn = F.CNPJ
-WHERE P.Preco > ALL (
-    SELECT PO.Preco 
-    FROM ProdutoOfertado PO
-    WHERE PO.Preco <= 60
-);
-
-
--- Seleciona todos os pedidos feitos depois do dia 9 de fevereiro
--- subconsulta com ANY
-SELECT P.IdPedido, P.Data, C.Nome, F.Nome
-FROM Pedido P
-JOIN Consumidor C ON P.CPF = C.CPF
-JOIN Fornecedor F ON P.CNPJ = F.CNPJ
-WHERE P.Data > ANY (
-    SELECT Data
-    FROM Pedido
-    WHERE Data > TO_DATE('2025-02-09', 'YYYY-MM-DD')
-);
-
-
--- Selecionando os fornecedores localizados na Rua do Hambúrguer, Av Norte ou Rua 17 de Agsoto
--- subconsulta com IN 
-SELECT F.Nome, F.Rua
+SELECT F.Nome, PR.Nome, PO.Preco
 FROM Fornecedor F
-WHERE F.Rua IN (
-    SELECT Rua
-    FROM Fornecedor
-    WHERE Rua IN ('Rua do Hambúrguer', 'Av. Norte', 'Rua 17 de Agosto')
+INNER JOIN ProdutoOfertado PO ON F.CNPJ = PO.CNPJ_Forn
+INNER JOIN Produto PR ON PO.IdProduto = PR.IdProduto
+INNER JOIN Restaurante R ON F.CNPJ = R.CNPJ_Forn
+WHERE PO.Preco > ALL (
+    SELECT PO2.Preco
+    FROM ProdutoOfertado PO2
+    INNER JOIN Fornecedor F2 ON PO2.CNPJ_Forn = F2.CNPJ
+    WHERE F2.Nome LIKE 'Padaria%'
 )
-ORDER BY F.Nome ASC;
+ORDER BY PO.Preco DESC;
+
+
+-- Seleciona todos os produtos com preço mais barato que qualquer produto vendido na Padaria Casa Forte
+-- subconsulta com ANY
+SELECT F.Nome, PR.Nome, PO.Preco
+FROM Fornecedor F
+INNER JOIN ProdutoOfertado PO ON F.CNPJ = PO.CNPJ_Forn
+INNER JOIN Produto PR ON PO.IdProduto = PR.IdProduto
+WHERE PO.Preco < ANY (
+    SELECT PO2.Preco
+    FROM ProdutoOfertado PO2
+    INNER JOIN Fornecedor F2 ON PO2.CNPJ_Forn = F2.CNPJ
+    WHERE F2.Nome = 'Padaria Casa Forte'
+)
+ORDER BY F.Nome;
+
+-- Selecionando os consumidores que residem em cidades que existem restaurantes
+-- subconsulta com IN 
+SELECT  C.Nome, C.Cidade
+FROM Consumidor C
+WHERE C.Cidade IN (
+    SELECT F.Cidade
+    FROM Fornecedor F
+    INNER JOIN Restaurante R ON F.CNPJ = R.CNPJ_Forn
+)
+ORDER BY C.Cidade;
 
 -- Selecionando e Agrupando as Ruas que iniciam com "Rua" ou "Av" e suas quantidades de fornecedores que já tiveram pedidos
 -- having + group by + COUNT + LIKE
