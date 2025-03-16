@@ -113,7 +113,7 @@ CREATE TABLE tb_supermercado OF tp_supermercado (
 CREATE OR REPLACE TYPE tp_restaurante UNDER tp_fornecedor (
     Categoria VARCHAR(50),
     OVERRIDING MEMBER FUNCTION getTipo RETURN VARCHAR2
-    );
+    ) NOT FINAL;
 /
 
 CREATE OR REPLACE TYPE BODY tp_restaurante AS
