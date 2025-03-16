@@ -279,7 +279,7 @@ CREATE TABLE tb_telefoneFornecedor OF tp_telefoneFornecedor (
 CREATE OR REPLACE TYPE tp_desconto AS OBJECT (
     CNPJ REF tp_fornecedor,
     Data DATE,
-    Porcentagem DECIMAL(5, 2),
+    Porcentagem DECIMAL(4, 3),
     MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL
 );
 /
@@ -287,7 +287,7 @@ CREATE OR REPLACE TYPE tp_desconto AS OBJECT (
 CREATE OR REPLACE TYPE BODY tp_desconto AS
     MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL IS
     BEGIN
-        RETURN Porcentagem / 100; 
+        RETURN Porcentagem * 100; 
     END;
 END;
 /
