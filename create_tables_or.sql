@@ -268,3 +268,34 @@ CREATE TABLE tb_componente OF tp_componente (
     CodigoComposto WITH ROWID REFERENCES tb_produto NOT NULL
 );
 /
+
+CREATE OR REPLACE TYPE tp_prato AS OBJECT (
+    Nome  VARCHAR2(100),
+    Preco DECIMAL(10,2)
+);
+/
+
+CREATE OR REPLACE TYPE varray_pratos AS VARRAY(20) OF tp_prato;
+/
+
+ALTER TYPE tp_restaurante ADD ATTRIBUTE Pratos varray_pratos CASCADE;
+/
+
+CREATE OR REPLACE TYPE tp_historicoCardapio AS OBJECT (
+    DataAtualizacao DATE,
+    Menu varray_pratos
+);
+/
+
+CREATE OR REPLACE TYPE nt_historicoCardapios AS TABLE OF tp_historicoCardapio;
+/
+
+CREATE OR REPLACE TYPE tp_restauranteComHistorico UNDER tp_restaurante (
+    HistoricoMenus nt_historicoCardapios
+);
+/
+
+CREATE TABLE tb_restauranteComHistorico OF tp_restauranteComHistorico (
+    CNPJ PRIMARY KEY
+) NESTED TABLE HistoricoMenus STORE AS nt_historicoMenus_tab;
+/
