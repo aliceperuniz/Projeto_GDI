@@ -45,38 +45,52 @@ INSERT INTO tb_fornecedor VALUES (tp_fornecedor('11111111111112', 'Fornecedor K'
 INSERT INTO tb_fornecedor VALUES (tp_fornecedor('12121212121212', 'Fornecedor L', '13131313', 'Av Forn L', 120, 'São Paulo', 'Centro'));
 INSERT INTO tb_fornecedor VALUES (tp_fornecedor('13131313131313', 'Fornecedor M', '14141414', 'Rua Forn M', 130, 'Rio de Janeiro', 'Zona Norte'));
 INSERT INTO tb_fornecedor VALUES (tp_fornecedor('14141414141414', 'Fornecedor N', '15151515', 'Av Forn N', 140, 'Belo Horizonte', 'Industrial'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('15151515151515', 'Fornecedor O', '16161616', 'Rua Forn O', 150, 'Porto Alegre', 'Zona Sul'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('16161616161616', 'Fornecedor P', '17171717', 'Av Forn P', 160, 'Recife', 'Centro'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('17171717171717', 'Fornecedor Q', '18181818', 'Rua Forn Q', 170, 'Salvador', 'Bairro'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('18181818181818', 'Fornecedor R', '19191919', 'Av Forn R', 180, 'Fortaleza', 'Industrial'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('19191919191919', 'Fornecedor S', '20202020', 'Rua Forn S', 190, 'Curitiba', 'Zona Norte'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('20202020202020', 'Fornecedor T', '21212121', 'Av Forn T', 200, 'Florianópolis', 'Centro'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('21212121212121', 'Fornecedor U', '22222222', 'Rua Forn U', 210, 'São Paulo', 'Bairro'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('22222222222223', 'Fornecedor V', '23232323', 'Av Forn V', 220, 'Rio de Janeiro', 'Industrial'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('23232323232323', 'Fornecedor W', '24242424', 'Rua Forn W', 230, 'Belo Horizonte', 'Zona Oeste'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('24242424242424', 'Fornecedor X', '25252525', 'Av Forn X', 240, 'Porto Alegre', 'Centro'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('25252525252525', 'Fornecedor Y', '26262626', 'Rua Forn Y', 250, 'Recife', 'Bairro'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('26262626262626', 'Fornecedor Z', '27272727', 'Av Forn Z', 260, 'Salvador', 'Industrial'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('27272727272727', 'Fornecedor AA', '28282828', 'Rua Forn AA', 270, 'Fortaleza', 'Centro'));
+INSERT INTO tb_fornecedor VALUES (tp_fornecedor('28282828282828', 'Fornecedor AB', '29292929', 'Av Forn AB', 280, 'Curitiba', 'Zona Leste'));
 
 -- Povoamento da tabela tb_supermercado
-INSERT INTO tb_supermercado VALUES (tp_supermercado('15151515151515', 'Supermercado X', '55555555', 'Rua X', 101, 'Porto Alegre', 'Zona 1'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('16161616161616', 'Supermercado Y', '66666666', 'Av Y', 102, 'Curitiba', 'Zona 2'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('17171717171717', 'Supermercado Z', '77777777', 'Rua Z', 103, 'São Paulo', 'Centro'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('18181818181818', 'Supermercado Alfa', '88888888', 'Av Alfa', 104, 'Rio de Janeiro', 'Bairro'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('19191919191919', 'Supermercado Beta', '99999999', 'Rua Beta', 105, 'Belo Horizonte', 'Zona Sul'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('20202020202020', 'Supermercado Gama', '10101010', 'Av Gama', 106, 'Florianópolis', 'Industrial'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('21212121212121', 'Supermercado Delta', '11111111', 'Rua Delta', 107, 'Recife', 'Centro'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('22222222222223', 'Supermercado Épsilon', '12121212', 'Av Épsilon', 108, 'Salvador', 'Bairro'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('23232323232323', 'Supermercado Zeta', '13131313', 'Rua Zeta', 109, 'Fortaleza', 'Industrial'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('24242424242424', 'Supermercado Eta', '14141414', 'Av Eta', 110, 'Porto Alegre', 'Zona Leste'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('25252525252525', 'Supermercado Theta', '15151515', 'Rua Theta', 111, 'Curitiba', 'Centro'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('26262626262626', 'Supermercado Iota', '16161616', 'Av Iota', 112, 'São Paulo', 'Bairro'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('27272727272727', 'Supermercado Kappa', '17171717', 'Rua Kappa', 113, 'Rio de Janeiro', 'Industrial'));
-INSERT INTO tb_supermercado VALUES (tp_supermercado('28282828282828', 'Supermercado Lambda', '18181818', 'Av Lambda', 114, 'Belo Horizonte', 'Zona Oeste'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('11111111111111', 'Supermercado X', '55555555', 'Rua X', 101, 'Porto Alegre', 'Zona 1'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('22222222222222', 'Supermercado Y', '66666666', 'Av Y', 102, 'Curitiba', 'Zona 2'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('33333333333333', 'Supermercado Z', '77777777', 'Rua Z', 103, 'São Paulo', 'Centro'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('44444444444444', 'Supermercado Alfa', '88888888', 'Av Alfa', 104, 'Rio de Janeiro', 'Bairro'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('55555555555555', 'Supermercado Beta', '99999999', 'Rua Beta', 105, 'Belo Horizonte', 'Zona Sul'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('66666666666666', 'Supermercado Gama', '10101010', 'Av Gama', 106, 'Florianópolis', 'Industrial'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('77777777777777', 'Supermercado Delta', '11111111', 'Rua Delta', 107, 'Recife', 'Centro'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('88888888888888', 'Supermercado Épsilon', '12121212', 'Av Épsilon', 108, 'Salvador', 'Bairro'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('99999999999999', 'Supermercado Zeta', '13131313', 'Rua Zeta', 109, 'Fortaleza', 'Industrial'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('10101010101010', 'Supermercado Eta', '14141414', 'Av Eta', 110, 'Porto Alegre', 'Zona Leste'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('11111111111112', 'Supermercado Theta', '15151515', 'Rua Theta', 111, 'Curitiba', 'Centro'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('12121212121212', 'Supermercado Iota', '16161616', 'Av Iota', 112, 'São Paulo', 'Bairro'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('13131313131313', 'Supermercado Kappa', '17171717', 'Rua Kappa', 113, 'Rio de Janeiro', 'Industrial'));
+INSERT INTO tb_supermercado VALUES (tp_supermercado('14141414141414', 'Supermercado Lambda', '18181818', 'Av Lambda', 114, 'Belo Horizonte', 'Zona Oeste'));
 
 -- Povoamento da tabela tb_restaurante
-INSERT INTO tb_restaurante VALUES (tp_restaurante('29292929292929', 'Restaurante A', '19191919', 'Rua R1', 201, 'São Paulo', 'Próximo ao parque', 'Italiano'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('30303030303030', 'Restaurante B', '20202020', 'Av R2', 202, 'Rio de Janeiro', 'Centro', 'Churrascaria'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('31313131313131', 'Restaurante C', '21212121', 'Rua R3', 203, 'Belo Horizonte', 'Loja', 'Mexicano'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('32323232323232', 'Restaurante D', '22222222', 'Av R4', 204, 'Curitiba', 'Apto', 'Japones'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('33333333333334', 'Restaurante E', '23232323', 'Rua R5', 205, 'Fortaleza', 'Casa', 'Vegano'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('34343434343434', 'Restaurante F', '24242424', 'Av R6', 206, 'Recife', 'Bloco', 'Italiano'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('35353535353535', 'Restaurante G', '25252525', 'Rua R7', 207, 'Salvador', 'Fundos', 'Chines'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('36363636363636', 'Restaurante H', '26262626', 'Av R8', 208, 'Florianópolis', 'Apartamento', 'Brasileiro'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('37373737373737', 'Restaurante I', '27272727', 'Rua R9', 209, 'Porto Alegre', 'Loja', 'Tailandês'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('38383838383838', 'Restaurante J', '28282828', 'Av R10', 210, 'São Paulo', 'Casa', 'Mediterrâneo'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('39393939393939', 'Restaurante K', '29292929', 'Rua R11', 211, 'Rio de Janeiro', 'Centro', 'Indiano'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('40404040404040', 'Restaurante L', '30303030', 'Av R12', 212, 'Belo Horizonte', 'Zona Sul', 'Frances'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('41414141414141', 'Restaurante M', '31313131', 'Rua R13', 213, 'Curitiba', 'Próximo ao parque', 'Pizzaria'));
-INSERT INTO tb_restaurante VALUES (tp_restaurante('42424242424242', 'Restaurante N', '32323232', 'Av R14', 214, 'Fortaleza', 'Industrial', 'Hamburgueria'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('15151515151515', 'Restaurante A', '19191919', 'Rua R1', 201, 'São Paulo', 'Próximo ao parque', 'Italiano'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('16161616161616', 'Restaurante B', '20202020', 'Av R2', 202, 'Rio de Janeiro', 'Centro', 'Churrascaria'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('17171717171717', 'Restaurante C', '21212121', 'Rua R3', 203, 'Belo Horizonte', 'Loja', 'Mexicano'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('18181818181818', 'Restaurante D', '22222222', 'Av R4', 204, 'Curitiba', 'Apto', 'Japones'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('19191919191919', 'Restaurante E', '23232323', 'Rua R5', 205, 'Fortaleza', 'Casa', 'Vegano'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('20202020202020', 'Restaurante F', '24242424', 'Av R6', 206, 'Recife', 'Bloco', 'Italiano'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('21212121212121', 'Restaurante G', '25252525', 'Rua R7', 207, 'Salvador', 'Fundos', 'Chines'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('22222222222223', 'Restaurante H', '26262626', 'Av R8', 208, 'Florianópolis', 'Apartamento', 'Brasileiro'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('23232323232323', 'Restaurante I', '27272727', 'Rua R9', 209, 'Porto Alegre', 'Loja', 'Tailandês'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('24242424242424', 'Restaurante J', '28282828', 'Av R10', 210, 'São Paulo', 'Casa', 'Mediterrâneo'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('25252525252525', 'Restaurante K', '29292929', 'Rua R11', 211, 'Rio de Janeiro', 'Centro', 'Indiano'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('26262626262626', 'Restaurante L', '30303030', 'Av R12', 212, 'Belo Horizonte', 'Zona Sul', 'Frances'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('27272727272727', 'Restaurante M', '31313131', 'Rua R13', 213, 'Curitiba', 'Próximo ao parque', 'Pizzaria'));
+INSERT INTO tb_restaurante VALUES (tp_restaurante('28282828282828', 'Restaurante N', '32323232', 'Av R14', 214, 'Fortaleza', 'Industrial', 'Hamburgueria'));
 
 -- Povoamento da tabela tb_produto
 INSERT INTO tb_produto VALUES (tp_produto(1, 'Arroz'));
@@ -428,20 +442,20 @@ INSERT INTO tb_telefoneFornecedor VALUES ('71', '746507341', (SELECT REF(f) FROM
 INSERT INTO tb_telefoneFornecedor VALUES ('71', '737396230', (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '13131313131313'));
 
 -- Povoamento da tabela tb_desconto
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111'), TO_DATE('2025-01-01','YYYY-MM-DD'), 5.00);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '22222222222222'), TO_DATE('2025-01-02','YYYY-MM-DD'), 7.50);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '33333333333333'), TO_DATE('2025-01-03','YYYY-MM-DD'), 10.00);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '44444444444444'), TO_DATE('2025-01-04','YYYY-MM-DD'), 4.25);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '55555555555555'), TO_DATE('2025-01-05','YYYY-MM-DD'), 6.75);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '66666666666666'), TO_DATE('2025-01-06','YYYY-MM-DD'), 8.00);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '77777777777777'), TO_DATE('2025-01-07','YYYY-MM-DD'), 5.50);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '88888888888888'), TO_DATE('2025-01-08','YYYY-MM-DD'), 9.25);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '99999999999999'), TO_DATE('2025-01-09','YYYY-MM-DD'), 7.00);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '10101010101010'), TO_DATE('2025-01-10','YYYY-MM-DD'), 6.50);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111112'), TO_DATE('2025-01-11','YYYY-MM-DD'), 4.75);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '12121212121212'), TO_DATE('2025-01-12','YYYY-MM-DD'), 8.25);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '13131313131313'), TO_DATE('2025-01-13','YYYY-MM-DD'), 10.50);
-INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '14141414141414'), TO_DATE('2025-01-14','YYYY-MM-DD'), 5.95);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111'), TO_DATE('2025-01-01','YYYY-MM-DD'), 0.05);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '22222222222222'), TO_DATE('2025-01-02','YYYY-MM-DD'), 0.075);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '33333333333333'), TO_DATE('2025-01-03','YYYY-MM-DD'), 0.01);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '44444444444444'), TO_DATE('2025-01-04','YYYY-MM-DD'), 0.045);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '55555555555555'), TO_DATE('2025-01-05','YYYY-MM-DD'), 0.067);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '66666666666666'), TO_DATE('2025-01-06','YYYY-MM-DD'), 0.08);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '77777777777777'), TO_DATE('2025-01-07','YYYY-MM-DD'), 0.5);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '88888888888888'), TO_DATE('2025-01-08','YYYY-MM-DD'), 0.25);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '99999999999999'), TO_DATE('2025-01-09','YYYY-MM-DD'), 0.05);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '10101010101010'), TO_DATE('2025-01-10','YYYY-MM-DD'), 0.50);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111112'), TO_DATE('2025-01-11','YYYY-MM-DD'), 0.75);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '12121212121212'), TO_DATE('2025-01-12','YYYY-MM-DD'), 0.15);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '13131313131313'), TO_DATE('2025-01-13','YYYY-MM-DD'), 0.50);
+INSERT INTO tb_desconto VALUES ((SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '14141414141414'), TO_DATE('2025-01-14','YYYY-MM-DD'), 0.10);
 
 -- Povoamento da tabela tb_componente
 INSERT INTO tb_componente VALUES (
