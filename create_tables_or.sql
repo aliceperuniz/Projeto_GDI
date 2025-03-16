@@ -20,15 +20,6 @@ ALTER TYPE tp_entregador ADD ATTRIBUTE Idade NUMBER CASCADE;
 ALTER TYPE tp_entregador DROP ATTRIBUTE Idade CASCADE;
 /
 
-DECLARE
-    entregador tp_entregador;
-    idade NUMBER;
-BEGIN
-    entregador := tp_entregador('12345678901', TO_DATE('2004-01-30', 'YYYY-MM-DD'), 'Maria');
-    idade := entregador.getIdade();
-    DBMS_OUTPUT.PUT_LINE('Idade: ' || idade);
-END;
-/
 
 CREATE TABLE tb_entregador OF tp_entregador (
     CPF PRIMARY KEY,
@@ -62,13 +53,6 @@ CREATE OR REPLACE TYPE BODY tp_consumidor AS
 END;
 /
 
-DECLARE
-    consumidor tp_consumidor;
-BEGIN
-    consumidor := tp_consumidor('12345678901', TO_DATE('2004-01-30', 'YYYY-MM-DD'), 'Maria', '12345678', 'Rua A', 123, 'Cidade A', 'Complemento A');
-    consumidor.detalhesConsumidor();
-END;
-/
 CREATE TABLE tb_consumidor OF tp_consumidor (
     CPF PRIMARY KEY,
     DataDeNascimento NOT NULL,
@@ -160,13 +144,6 @@ CREATE OR REPLACE TYPE BODY tp_produto AS
 END;
 /
 
-DECLARE 
-    p tp_produto;
-BEGIN
-    p := tp_produto(1, 'Arroz');
-    DBMS_OUTPUT.PUT_LINE(p.Nome);
-END;
-/
 
 CREATE TABLE tb_produto OF tp_produto (
     IdProduto PRIMARY KEY,
@@ -225,14 +202,34 @@ CREATE TABLE tb_contem OF tp_contem(
 
 CREATE OR REPLACE TYPE tp_telefone AS OBJECT (
     Ddd CHAR(2),
-    Numero CHAR(9)
+    Numero CHAR(9),
+    ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER
 ) NOT INSTANTIABLE NOT FINAL;
 /
 
+CREATE OR REPLACE TYPE BODY tp_telefone AS
+    ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER IS
+    BEGIN
+        IF SELF.Ddd = t.Ddd THEN
+            RETURN 1;
+        ELSE
+            RETURN 0;
+        END IF;
+    END;
+END;
+/
 
 CREATE OR REPLACE TYPE tp_telefoneEntregador UNDER tp_telefone (
     CPF REF tp_entregador
 );
+/
+
+CREATE OR REPLACE TYPE BODY tp_telefoneEntregador AS
+    OVERRIDING ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER IS
+    BEGIN
+        RETURN SELF.tp_telefone.mesmoDdd(t);
+    END;
+END;
 /
 
 CREATE TABLE tb_telefoneEntregador OF tp_telefoneEntregador (
@@ -246,6 +243,14 @@ CREATE OR REPLACE TYPE tp_telefoneConsumidor UNDER tp_telefone (
 );
 /
 
+CREATE OR REPLACE TYPE BODY tp_telefoneConsumidor AS
+    OVERRIDING ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER IS
+    BEGIN
+        RETURN SELF.tp_telefone.mesmoDdd(t);
+    END;
+END;
+/
+
 CREATE TABLE tb_telefoneConsumidor OF tp_telefoneConsumidor (
     CONSTRAINT PK_TelefoneConsumidor PRIMARY KEY (Numero, Ddd),
     CPF SCOPE IS tb_consumidor NOT NULL
@@ -257,6 +262,14 @@ CREATE OR REPLACE TYPE tp_telefoneFornecedor UNDER tp_telefone (
 );
 /
 
+CREATE OR REPLACE TYPE BODY tp_telefoneFornecedor AS
+    OVERRIDING ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER IS
+    BEGIN
+        RETURN SELF.tp_telefone.mesmoDdd(t);
+    END;
+END;
+/
+
 CREATE TABLE tb_telefoneFornecedor OF tp_telefoneFornecedor (
     CONSTRAINT PK_TelefoneFornecedor PRIMARY KEY (Numero, Ddd),
     CNPJ SCOPE IS tb_fornecedor NOT NULL
@@ -266,8 +279,17 @@ CREATE TABLE tb_telefoneFornecedor OF tp_telefoneFornecedor (
 CREATE OR REPLACE TYPE tp_desconto AS OBJECT (
     CNPJ REF tp_fornecedor,
     Data DATE,
-    Porcentagem DECIMAL(5, 2)
+    Porcentagem DECIMAL(5, 2),
+    MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL
 );
+/
+
+CREATE OR REPLACE TYPE BODY tp_desconto AS
+    MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL IS
+    BEGIN
+        RETURN Porcentagem / 100; 
+    END;
+END;
 /
 
 CREATE TABLE tb_desconto OF tp_desconto (
