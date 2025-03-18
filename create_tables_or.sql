@@ -60,6 +60,24 @@ CREATE TABLE tb_consumidor OF tp_consumidor (
 );
 /
 
+CREATE OR REPLACE TYPE tp_desconto AS OBJECT (
+    Data DATE,
+    Porcentagem DECIMAL(4, 3),
+    MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL
+);
+/
+
+CREATE OR REPLACE TYPE BODY tp_desconto AS
+    MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL IS
+    BEGIN
+        RETURN Porcentagem * 100; 
+    END;
+END;
+/
+
+CREATE OR REPLACE TYPE tp_desconto_nt AS TABLE OF tp_desconto;
+/
+
 CREATE OR REPLACE TYPE tp_fornecedor AS OBJECT (
     CNPJ CHAR(14),
     Nome VARCHAR(100),
@@ -68,6 +86,7 @@ CREATE OR REPLACE TYPE tp_fornecedor AS OBJECT (
     Numero INT,
     Cidade VARCHAR(50),
     Complemento VARCHAR(50),
+    Descontos tp_desconto_nt,
     MEMBER FUNCTION getIdentificador RETURN VARCHAR2,
     MEMBER FUNCTION getTipo RETURN VARCHAR2
 ) NOT FINAL ;
@@ -88,8 +107,8 @@ END;
 
 CREATE TABLE tb_fornecedor OF tp_fornecedor (
     CNPJ PRIMARY KEY,
-    Nome NOT NULL
-);
+    Nome NOT NULL)
+ NESTED TABLE Descontos STORE AS ntb_descontos;
 /
 
 CREATE OR REPLACE TYPE tp_supermercado UNDER tp_fornecedor(
@@ -107,13 +126,14 @@ END;
 
 CREATE TABLE tb_supermercado OF tp_supermercado (
     CNPJ PRIMARY KEY
-);
+) 
+ NESTED TABLE Descontos STORE AS ntb_descontos_supermercado;
 /
 
 CREATE OR REPLACE TYPE tp_restaurante UNDER tp_fornecedor (
     Categoria VARCHAR(50),
     OVERRIDING MEMBER FUNCTION getTipo RETURN VARCHAR2
-    ) NOT FINAL;
+    );
 /
 
 CREATE OR REPLACE TYPE BODY tp_restaurante AS
@@ -126,12 +146,14 @@ END;
 
 CREATE TABLE tb_restaurante OF tp_restaurante (
     CNPJ PRIMARY KEY
-);
+) 
+ NESTED TABLE Descontos STORE AS ntb_descontos_restaurante;
 /
 
 CREATE OR REPLACE TYPE tp_produto AS OBJECT (
     IdProduto INT,
-    Nome VARCHAR(100)
+    Nome VARCHAR(100),
+    CONSTRUCTOR FUNCTION tp_produto(IdProduto INT, Nome VARCHAR) RETURN SELF AS RESULT 
 );
 /
 CREATE OR REPLACE TYPE BODY tp_produto AS
@@ -220,83 +242,30 @@ END;
 /
 
 CREATE OR REPLACE TYPE tp_telefoneEntregador UNDER tp_telefone (
-    CPF REF tp_entregador
-);
-/
-
-CREATE OR REPLACE TYPE BODY tp_telefoneEntregador AS
-    OVERRIDING ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER IS
-    BEGIN
-        RETURN SELF.tp_telefone.mesmoDdd(t);
-    END;
-END;
-/
-
-CREATE TABLE tb_telefoneEntregador OF tp_telefoneEntregador (
-    CONSTRAINT PK_TelefoneEntregador PRIMARY KEY (Numero, Ddd),
-    CPF SCOPE IS tb_entregador NOT NULL
 );
 /
 
 CREATE OR REPLACE TYPE tp_telefoneConsumidor UNDER tp_telefone (
-    CPF REF tp_consumidor
-);
-/
-
-CREATE OR REPLACE TYPE BODY tp_telefoneConsumidor AS
-    OVERRIDING ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER IS
-    BEGIN
-        RETURN SELF.tp_telefone.mesmoDdd(t);
-    END;
-END;
-/
-
-CREATE TABLE tb_telefoneConsumidor OF tp_telefoneConsumidor (
-    CONSTRAINT PK_TelefoneConsumidor PRIMARY KEY (Numero, Ddd),
-    CPF SCOPE IS tb_consumidor NOT NULL
 );
 /
 
 CREATE OR REPLACE TYPE tp_telefoneFornecedor UNDER tp_telefone (
-    CNPJ REF tp_fornecedor
 );
 /
 
-CREATE OR REPLACE TYPE BODY tp_telefoneFornecedor AS
-    OVERRIDING ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER IS
-    BEGIN
-        RETURN SELF.tp_telefone.mesmoDdd(t);
-    END;
-END;
+CREATE OR REPLACE TYPE varray_telefoneEntregador AS VARRAY(5) OF tp_telefoneEntregador;
+/
+CREATE OR REPLACE TYPE varray_telefoneConsumidor AS VARRAY(5) OF tp_telefoneConsumidor;
+/
+CREATE OR REPLACE TYPE varray_telefoneFornecedor AS VARRAY(5) OF tp_telefoneFornecedor;
+/
+ALTER TYPE tp_consumidor ADD ATTRIBUTE Telefones varray_telefoneConsumidor CASCADE;
+/
+ALTER TYPE tp_entregador ADD ATTRIBUTE Telefones varray_telefoneEntregador CASCADE;
+/
+ALTER TYPE tp_fornecedor ADD ATTRIBUTE Telefones varray_telefoneFornecedor CASCADE;
 /
 
-CREATE TABLE tb_telefoneFornecedor OF tp_telefoneFornecedor (
-    CONSTRAINT PK_TelefoneFornecedor PRIMARY KEY (Numero, Ddd),
-    CNPJ SCOPE IS tb_fornecedor NOT NULL
-);
-/
-
-CREATE OR REPLACE TYPE tp_desconto AS OBJECT (
-    CNPJ REF tp_fornecedor,
-    Data DATE,
-    Porcentagem DECIMAL(4, 3),
-    MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL
-);
-/
-
-CREATE OR REPLACE TYPE BODY tp_desconto AS
-    MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL IS
-    BEGIN
-        RETURN Porcentagem * 100; 
-    END;
-END;
-/
-
-CREATE TABLE tb_desconto OF tp_desconto (
-    CONSTRAINT PK_Desconto PRIMARY KEY (Data),
-    CNPJ WITH ROWID REFERENCES tb_fornecedor
-);
-/
 
 CREATE OR REPLACE TYPE tp_componente AS OBJECT (
     CodigoComponente REF tp_produto,
@@ -309,35 +278,4 @@ CREATE TABLE tb_componente OF tp_componente (
     CodigoComponente WITH ROWID REFERENCES tb_produto NOT NULL,
     CodigoComposto WITH ROWID REFERENCES tb_produto NOT NULL
 );
-/
-
-CREATE OR REPLACE TYPE tp_prato AS OBJECT (
-    Nome  VARCHAR2(100),
-    Preco DECIMAL(10,2)
-);
-/
-
-CREATE OR REPLACE TYPE varray_pratos AS VARRAY(20) OF tp_prato;
-/
-
-ALTER TYPE tp_restaurante ADD ATTRIBUTE Pratos varray_pratos CASCADE;
-/
-
-CREATE OR REPLACE TYPE tp_historicoCardapio AS OBJECT (
-    DataAtualizacao DATE,
-    Menu varray_pratos
-);
-/
-
-CREATE OR REPLACE TYPE nt_historicoCardapios AS TABLE OF tp_historicoCardapio;
-/
-
-CREATE OR REPLACE TYPE tp_restauranteComHistorico UNDER tp_restaurante (
-    HistoricoMenus nt_historicoCardapios
-);
-/
-
-CREATE TABLE tb_restauranteComHistorico OF tp_restauranteComHistorico (
-    CNPJ PRIMARY KEY
-) NESTED TABLE HistoricoMenus STORE AS nt_historicoMenus_tab;
 /
