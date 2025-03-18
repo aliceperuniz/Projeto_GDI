@@ -101,7 +101,7 @@ END;
 /
 
 -----------------------------------------------------
---- CREATE OR REPLACE TRIGGER (COMANDO) 
+--- CREATE OR REPLACE TRIGGER (LINHA) 
 -----------------------------------------------------
 
 CREATE OR REPLACE TRIGGER trg_disjoint_fornecedor
@@ -156,6 +156,23 @@ END;
 /
 -- Testando aplicação
 INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('76543210000177', TO_DATE('2025-02-13', 'YYYY-MM-DD'), -6.00);
+
+-----------------------------------------------------
+--- CREATE OR REPLACE TRIGGER (COMANDO) 
+-----------------------------------------------------
+CREATE OR REPLACE TRIGGER fim_de_semana
+BEFORE INSERT ON Desconto
+BEGIN
+  IF  (TRIM(TO_CHAR(SYSDATE, 'DAY', 'NLS_DATE_LANGUAGE = ''PORTUGUESE''')) IN ('SÁBADO', 'DOMINGO'))
+    THEN
+       RAISE_APPLICATION_ERROR( -20001, 'O cadastro de Descontos não é permitido em fins de semana.');
+  END IF;
+END;
+
+/
+-- Testando aplicação
+INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('12336789000111', TO_DATE('2025-02-16', 'YYYY-MM-DD'), 6.00);
+INSERT INTO Desconto (CNPJ_Desconto, Data, Porcentagem) VALUES ('12336789000111', TO_DATE('2025-02-15', 'YYYY-MM-DD'), 6.00);
 
 -----------------------------------------------------
 --- CREATE PROCEDURE
@@ -421,41 +438,6 @@ JOIN ProdutoOfertado p ON r.CNPJ_Forn = p.CNPJ_Forn
 JOIN Fornecedor f ON f.CNPJ = r.CNPJ_Forn
 LEFT JOIN Desconto d ON d.CNPJ_Desconto = f.CNPJ;
 
------------------------------------------------------
---- LOOP EXIT WHEN
------------------------------------------------------
-
-DECLARE
-    v_contador NUMBER := 1;
-    v_soma     NUMBER := 0;
-    v_limite   NUMBER := 100;  -- Limite para a soma
-BEGIN
-    LOOP
-        DBMS_OUTPUT.PUT_LINE('Início iteração ' || v_contador || ' | Soma atual: ' || v_soma);
-        
-        -- Atualiza a soma com uma fórmula (exemplo: soma dos dobrados do contador)
-        v_soma := v_soma + (v_contador * 2);
-        
-        -- Se o contador for múltiplo de 3, verifica se a soma ultrapassou o limite
-        IF MOD(v_contador, 3) = 0 THEN
-            DBMS_OUTPUT.PUT_LINE('Iteração ' || v_contador || ' é múltiplo de 3. Verificando soma...');
-            IF v_soma > v_limite THEN
-                DBMS_OUTPUT.PUT_LINE('Soma (' || v_soma || ') ultrapassou o limite (' || v_limite || '). Encerrando o loop na iteração ' || v_contador);
-                EXIT;
-            END IF;
-        END IF;
-        
-        DBMS_OUTPUT.PUT_LINE('Fim iteração ' || v_contador || ' | Soma atualizada: ' || v_soma);
-        
-        v_contador := v_contador + 1;
-        
-        -- Saída de segurança: se o contador ultrapassar 20, encerra o loop
-        EXIT WHEN v_contador > 20;
-    END LOOP;
-    
-    DBMS_OUTPUT.PUT_LINE('Loop finalizado com soma final: ' || v_soma);
-END;
-/
 
 -----------------------------------------------------
 --- IN, OUT e IN OUT (em um PROCEDURE)
