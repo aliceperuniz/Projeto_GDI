@@ -218,13 +218,42 @@ SELECT f.getTipo(),f.getIdentificador() FROM tb_fornecedor f WHERE f.rua = 'Av F
 SELECT f.getTipo(),f.getIdentificador() FROM tb_restaurante f;
 SELECT f.getTipo(),f.getIdentificador() FROM tb_supermercado f;
 
--- testando order function mesmoddd + CONSULTA À VARRAY + DEREF
--- SELECT 
---   DEREF(p.IdProduto).Nome AS Produto,
---   p.Preco,
---   t.Ddd || t.Numero AS TelefoneFornecedor
--- FROM tb_produtoOfertado p,
---      tb_supermercado s,
---      TABLE(s.Telefones) t
--- WHERE DEREF(p.CNPJ_Forn).CNPJ = s.CNPJ;
--- /
+-- testando order function mesmoddd + CONSULTA À VARRAY
+
+DECLARE
+    entregador tp_entregador;
+    resultado INTEGER;
+BEGIN
+    -- Busca o objeto do entregador corretamente
+    SELECT value(e) 
+    INTO entregador 
+    FROM tb_entregador e 
+    WHERE e.cpf = '11111111111';
+
+    -- Comparando o primeiro e o segundo número de telefone do varray
+    resultado := entregador.telefones(1).mesmoDdd(entregador.telefones(2));
+    DBMS_OUTPUT.PUT_LINE('Resultado da comparação do DDD do primeiro e segundo telefone: ' || resultado);
+
+    -- Comparando o segundo e o terceiro número de telefone do varray
+    resultado := entregador.telefones(2).mesmoDdd(entregador.telefones(3));
+    DBMS_OUTPUT.PUT_LINE('Resultado da comparação do DDD do segundo e terceiro telefone: ' || resultado);
+END;
+/
+
+-- testando order function mesmoddd 
+
+DECLARE
+    telefone1 tp_telefoneEntregador := tp_telefoneEntregador('81', '987654321');
+    telefone2 tp_telefoneEntregador := tp_telefoneEntregador('81', '987123456');
+    telefone3 tp_telefoneEntregador := tp_telefoneEntregador('82', '987654321');
+    resultado INTEGER;
+BEGIN
+    -- Comparando telefone1 e telefone2 (mesmo DDD)
+    resultado := telefone1.mesmoDdd(telefone2);
+    DBMS_OUTPUT.PUT_LINE('Resultado para telefone1 e telefone2 (mesmo DDD): ' || resultado);
+
+    -- Comparando telefone1 e telefone3 (DDD diferente)
+    resultado := telefone1.mesmoDdd(telefone3);
+    DBMS_OUTPUT.PUT_LINE('Resultado para telefone1 e telefone3 (DDD diferente): ' || resultado);
+END;
+/
