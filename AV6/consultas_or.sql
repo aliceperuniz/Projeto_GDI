@@ -1,4 +1,3 @@
--- SELECT REF E DEREF
 -- CONSULTA À VARRAY
 -- CONSULTA À NESTED TABLE  
 -- Mostrar que as funções criadas funcionam! 
@@ -8,6 +7,27 @@
         --  MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL
         --  ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER
 -- OBS: TENTAR USAR TODAS AS TABELAS E FAZER O MAXIMO DE CONSULTAS POSSIVEIS E MAIS COMPLEXAS
+
+
+-- SELECT REF (Usado em inserts)
+
+INSERT INTO tb_produtoOfertado VALUES (
+  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 4),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111'),
+  12.75
+);
+INSERT INTO tb_componente VALUES (
+  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 8),
+  (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 9)
+);
+INSERT INTO tb_pedido VALUES (
+  114,
+  TO_DATE('2025-03-24','YYYY-MM-DD'),
+  TO_TIMESTAMP('2025-03-24 17:05:20','YYYY-MM-DD HH24:MI:SS'),
+  (SELECT REF(e) FROM tb_entregador e WHERE e.CPF = '88888888888'),
+  (SELECT REF(c) FROM tb_consumidor c WHERE c.CPF = '20202020202'),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '77777777777777')
+);
 
 -- SELECT DEREF
 SELECT 
