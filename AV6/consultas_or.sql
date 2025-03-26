@@ -1,5 +1,3 @@
--- CONSULTA À VARRAY
--- CONSULTA À NESTED TABLE  
 -- Mostrar que as funções criadas funcionam! 
 --  -- TO DO: FUNCTIONS
         --  MEMBER FUNCTION getIdentificador RETURN VARCHAR2,
@@ -49,7 +47,7 @@ JOIN tb_produto p
 WHERE f.Nome = 'Fornecedor I';
 /
 
--- testando map function transformaporcentagem
+-- testando map function transformaporcentagem + CONSULTA À VARRAY + CONSULTA À NESTED TABLE  
 SELECT 
   DEREF(p.IdProduto).Nome AS Produto,
   p.Preco,
