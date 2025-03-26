@@ -52,133 +52,17 @@ FROM tb_produtoOfertado p,
 WHERE DEREF(p.CNPJ_Forn).CNPJ = s.CNPJ;
 /
 
--- DANDO ERRADO OS SELECTS DEREF A PARTIR DAQUI
-SELECT 
+SELECT
   r.Nome AS Restaurante,
   DEREF(p.IdProduto).Nome AS Produto_Ofertado,
   p.Preco AS Preco_Produto,
   DEREF(comp.CodigoComposto).Nome AS Produto_Composto,
-  c.IdPedido AS Pedido_Referencia
+  DEREF(c.IdPedido).IdPedido AS Pedido_Referencia
 FROM tb_restaurante r,
      tb_produtoOfertado p,
      tb_contem c,
      tb_componente comp
-WHERE REF(p.CNPJ_Forn).CNPJ = DEREF(r.CNPJ).CNPJ
-  AND DEREF(c.IdProduto).idProduto = DEREF(p.idProduto).idProduto
-  AND DEREF(comp.CodigoComponente).IdProduto = DEREF(p.idProduto).idProduto;
-/
-
-SELECT 
-    p.IdPedido,
-    c.CPF AS CPF_Consumidor,
-    c.Nome AS Nome_Consumidor,
-    c.Telefones(1).Ddd || c.Telefones(1).Numero AS Telefone_Consumidor,
-    e.CPF AS CPF_Entregador,
-    e.Nome AS Nome_Entregador,
-    e.Telefones(1).Ddd || e.Telefones(1).Numero AS Telefone_Entregador,
-    prodComp.Nome AS Nome_Componente,
-    prodComposto.Nome AS Nome_Composto
-FROM tb_pedido p,
-     tb_consumidor c,
-     tb_entregador e,
-     tb_componente comp,
-     tb_produto prodComp,
-     tb_produto prodComposto
-WHERE p.CPF_Consumidor = REF(c)
-  AND p.CPF_Entregador = REF(e)
-  AND comp.CodigoComponente = REF(prodComp)
-  AND comp.CodigoComposto = REF(prodComposto)
-  AND e.Telefones(1).mesmoDdd(c.Telefones(1)) = 1
-  AND prodComp.IdProduto < prodComposto.IdProduto;
-/
-
-SELECT 
-    p.IdPedido,
-    TO_CHAR(p.DataEntrega, 'DD/MM/YYYY') AS DataEntrega,
-    c.Nome AS NomeConsumidor,
-    c.Telefones(1).Ddd || c.Telefones(1).Numero AS TelefoneConsumidor,
-    e.Nome AS NomeEntregador,
-    e.Telefones(1).Ddd || e.Telefones(1).Numero AS TelefoneEntregador,
-    DEREF(po.IdProduto).Nome AS NomeProduto,
-    po.Preco AS PrecoProduto,
-    f.Nome AS NomeFornecedor,
-    f.getTipo() AS TipoFornecedor,
-    DEREF(comp.CodigoComposto).Nome AS ProdutoComposto
-FROM tb_pedido p,
-     tb_consumidor c,
-     tb_entregador e,
-     tb_produtoOfertado po,
-     tb_fornecedor f,
-     tb_componente comp
-WHERE p.CPF_Consumidor = REF(c)
-  AND p.CPF_Entregador = REF(e)
-  AND p.CNPJ_Fornecedor = REF(f)
-  AND po.CNPJ_Forn = REF(f)
-  AND po.IdProduto = comp.CodigoComponente
-  AND p.DataEntrega BETWEEN SYSDATE - 60 AND SYSDATE
-  AND c.Telefones(1).mesmoDdd(e.Telefones(1)) = 1;
-/
-
-SELECT 
-    p.IdPedido,
-    DEREF(po.IdProduto).Nome AS NomeProduto,
-    po.Preco AS Preco,
-    DEREF(comp.CodigoComposto).Nome AS NomeProdutoComposto,
-    c.Nome AS NomeConsumidor,
-    c.Telefones(2).Ddd || c.Telefones(2).Numero AS TelefoneConsumidor2,
-    e.Nome AS NomeEntregador,
-    e.Telefones(2).Ddd || e.Telefones(2).Numero AS TelefoneEntregador2,
-    CASE 
-        WHEN c.Telefones(2).mesmoDdd(e.Telefones(2)) = 1 THEN 'Mesmo DDD' 
-        ELSE 'Diferente DDD' 
-    END AS ComparacaoDDD
-FROM tb_pedido p,
-     tb_consumidor c,
-     tb_entregador e,
-     tb_produtoOfertado po,
-     tb_componente comp
-WHERE p.CPF_Consumidor = REF(c)
-  AND p.CPF_Entregador = REF(e)
-  AND p.IdPedido IN (
-      SELECT ct.IdPedido 
-      FROM tb_contem ct 
-      WHERE ct.IdProduto = REF(po)
-  )
-  AND po.IdProduto = comp.CodigoComponente
-  AND po.Preco > 10;
-/
-
--- faz uma consulta que mostra qual foi o estabelecimento (supermercado ou restaurante), que mais vendeu produtos
--- em cada mes de 2024, e retorna tambem os descontos (se existentes), desses estabelecimentos que mais venderam
--- em cada mes.
-WITH Sales AS (
-  -- Calcula o total de itens vendidos por estabelecimento, agrupando por mês
-  SELECT 
-    TO_CHAR(p.DataEntrega, 'YYYY-MM') AS sale_month,
-    DEREF(c.IdFornecedor).CNPJ AS CNPJ,
-    DEREF(c.IdFornecedor) AS estab,
-    COUNT(*) AS total_sales
-  FROM tb_contem c, tb_pedido p
-  WHERE c.IdPedido = REF(p)
-    AND TO_CHAR(p.DataEntrega, 'YYYY') = '2024'
-  GROUP BY TO_CHAR(p.DataEntrega, 'YYYY-MM'), DEREF(c.IdFornecedor).CNPJ, DEREF(c.IdFornecedor)
-),
-RankedSales AS (
-  SELECT s.*,
-         RANK() OVER (PARTITION BY sale_month ORDER BY total_sales DESC) AS rnk
-  FROM Sales s
-)
-SELECT 
-  rs.sale_month,
-  rs.estab.getTipo() AS estabelecimento_tipo,
-  rs.estab.Nome AS estabelecimento_nome,
-  rs.total_sales,
-  (SELECT LISTAGG(DEREF(d).transformaPorcentagem(), ', ')
-          WITHIN GROUP (ORDER BY DEREF(d).Data)
-   FROM TABLE(rs.estab.Descontos) d
-  ) AS descontos
-FROM RankedSales rs
-WHERE rs.rnk = 1;
+WHERE DEREF(comp.CodigoComponente).IdProduto = DEREF(p.idProduto).idProduto;
 /
 
 -- testando funcao getIdade
