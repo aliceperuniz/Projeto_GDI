@@ -4,13 +4,11 @@
 --  -- TO DO: FUNCTIONS
         --  MEMBER FUNCTION getIdentificador RETURN VARCHAR2,
         --  MEMBER FUNCTION getTipo RETURN VARCHAR2 (PARA O FORNECEDOR, SUPERMERCADOS E RESTAURANTES)
-        --  MAP MEMBER FUNCTION transformaPorcentagem RETURN DECIMAL
         --  ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER
 -- OBS: TENTAR USAR TODAS AS TABELAS E FAZER O MAXIMO DE CONSULTAS POSSIVEIS E MAIS COMPLEXAS
 
 
 -- SELECT REF (Usado em inserts)
-
 INSERT INTO tb_produtoOfertado VALUES (
   (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 4),
   (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '11111111111111'),
@@ -51,8 +49,8 @@ JOIN tb_produto p
 WHERE f.Nome = 'Fornecedor I';
 /
 
+-- testando map function transformaporcentagem
 SELECT 
-  s.getIdentificador() AS Fornecedor,
   DEREF(p.IdProduto).Nome AS Produto,
   p.Preco,
   d.transformaPorcentagem() AS Desconto,
@@ -61,9 +59,10 @@ FROM tb_produtoOfertado p,
      tb_supermercado s,
      TABLE(s.Descontos) d,
      TABLE(s.Telefones) t
-WHERE p.CNPJ_Forn = REF(s);
+WHERE DEREF(p.CNPJ_Forn).CNPJ = s.CNPJ;
 /
 
+-- DANDO ERRADO OS SELECTS DEREF A PARTIR DAQUI
 SELECT 
   r.Nome AS Restaurante,
   DEREF(p.IdProduto).Nome AS Produto_Ofertado,
@@ -71,12 +70,12 @@ SELECT
   DEREF(comp.CodigoComposto).Nome AS Produto_Composto,
   c.IdPedido AS Pedido_Referencia
 FROM tb_restaurante r,
-     tb_produto_ofertado p,
+     tb_produtoOfertado p,
      tb_contem c,
      tb_componente comp
-WHERE p.CNPJ_Forn = REF(r)
-  AND c.IdProduto = REF(p)
-  AND comp.CodigoComponente = p.IdProduto;
+WHERE REF(p.CNPJ_Forn).CNPJ = DEREF(r.CNPJ).CNPJ
+  AND DEREF(c.IdProduto).idProduto = DEREF(p.idProduto).idProduto
+  AND DEREF(comp.CodigoComponente).IdProduto = DEREF(p.idProduto).idProduto;
 /
 
 SELECT 
