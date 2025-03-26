@@ -1,11 +1,3 @@
--- Mostrar que as funções criadas funcionam! 
---  -- TO DO: FUNCTIONS
-        --  MEMBER FUNCTION getIdentificador RETURN VARCHAR2,
-        --  MEMBER FUNCTION getTipo RETURN VARCHAR2 (PARA O FORNECEDOR, SUPERMERCADOS E RESTAURANTES)
-        --  ORDER MEMBER FUNCTION mesmoDdd (t tp_telefone) RETURN INTEGER
--- OBS: TENTAR USAR TODAS AS TABELAS E FAZER O MAXIMO DE CONSULTAS POSSIVEIS E MAIS COMPLEXAS
-
-
 -- SELECT REF (Usado em inserts)
 INSERT INTO tb_produtoOfertado VALUES (
   (SELECT REF(p) FROM tb_produto p WHERE p.IdProduto = 4),
@@ -219,3 +211,20 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE(p.Nome);
 END;
 /
+
+-- testando função getIdentificador e getTipo para fornecedor, supermercado e restaurante
+
+SELECT f.getTipo(),f.getIdentificador() FROM tb_fornecedor f WHERE f.rua = 'Av Forn X';
+SELECT f.getTipo(),f.getIdentificador() FROM tb_restaurante f;
+SELECT f.getTipo(),f.getIdentificador() FROM tb_supermercado f;
+
+-- testando order function mesmoddd + CONSULTA À VARRAY + DEREF
+-- SELECT 
+--   DEREF(p.IdProduto).Nome AS Produto,
+--   p.Preco,
+--   t.Ddd || t.Numero AS TelefoneFornecedor
+-- FROM tb_produtoOfertado p,
+--      tb_supermercado s,
+--      TABLE(s.Telefones) t
+-- WHERE DEREF(p.CNPJ_Forn).CNPJ = s.CNPJ;
+-- /
