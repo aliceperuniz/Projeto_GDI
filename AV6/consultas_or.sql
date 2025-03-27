@@ -202,3 +202,16 @@ WHERE EXISTS (
     SELECT 1 FROM tb_pedido p 
     WHERE DEREF(p.CPF_Entregador).CPF = e.CPF
 );
+
+-- selecionando restaurantes de recife
+-- (funções getTipo e getIdentificador)
+SELECT 
+    f.getTipo() AS Tipo,
+    f.getIdentificador() AS Identificador,
+    f.Nome AS Nome,
+    f.CNPJ AS CNPJ,
+    f.Cidade AS Cidade
+FROM tb_restaurante f
+WHERE f.Cidade = 'Recife'
+;
+/
