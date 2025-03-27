@@ -141,3 +141,64 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Resultado para telefone1 e telefone3 (DDD diferente): ' || resultado);
 END;
 /
+
+-- aprimorando a consulta dos descontos e mostrando o preço com desconto
+SELECT 
+    DEREF(po.idProduto).Nome AS Nome_Produto,
+    po.Preco AS Preco_Produto,
+    d.transformaPorcentagem() AS Desconto,
+    po.Preco * (1 - d.transformaPorcentagem() / 100) AS Preco_Com_Desconto,
+    s.Nome AS Supermercado,
+    t.Ddd || t.Numero AS TelefoneSupermercado
+FROM 
+    tb_produtoOfertado po,
+    tb_supermercado s,
+    TABLE(s.Descontos) d,
+    TABLE(s.Telefones) t
+WHERE 
+    DEREF(po.CNPJ_Forn).CNPJ = s.CNPJ;
+
+
+-- produtos ofertados com desconto em janeiro de 2025
+SELECT 
+    DEREF(po.idProduto).Nome AS Produto,
+    po.Preco,
+    d.transformaPorcentagem() AS Desconto_Porcentagem
+FROM tb_produtoOfertado po,
+     tb_supermercado s,
+     TABLE(s.Descontos) d
+WHERE DEREF(po.CNPJ_Forn).CNPJ = s.CNPJ
+  AND d.Data BETWEEN TO_DATE('2025-01-01', 'YYYY-MM-DD') 
+                 AND TO_DATE('2025-01-31', 'YYYY-MM-DD');
+
+
+-- detalhes de todos os consumidores que fizeram pedidos acima de 10 reais
+BEGIN
+  FOR cons_rec IN (
+    SELECT VALUE(c) AS consumidor_obj
+    FROM tb_consumidor c
+    WHERE EXISTS (
+      SELECT 1
+      FROM tb_pedido p
+      JOIN tb_contem co ON p.IdPedido = DEREF(co.IdPedido).IdPedido
+      JOIN tb_produtoOfertado po ON co.IdProduto = REF(po)
+      WHERE p.CPF_Consumidor = REF(c)
+      AND po.Preco > 10
+    )
+  ) LOOP
+    cons_rec.consumidor_obj.detalhesConsumidor();
+  END LOOP;
+END;
+/
+
+-- selecionando os entregadores existentes, bem como a quantidade de telefones que eles possuem
+-- VARRAY + DEREF
+SELECT 
+    e.Nome,
+    e.CPF,
+    (SELECT COUNT(*) FROM TABLE(e.Telefones)) AS Qtd_Telefones
+FROM tb_entregador e
+WHERE EXISTS (
+    SELECT 1 FROM tb_pedido p 
+    WHERE DEREF(p.CPF_Entregador).CPF = e.CPF
+);
