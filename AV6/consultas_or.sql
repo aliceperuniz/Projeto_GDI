@@ -12,20 +12,63 @@ INSERT INTO tb_pedido VALUES (
   114,
   TO_DATE('2025-03-24','YYYY-MM-DD'),
   TO_TIMESTAMP('2025-03-24 17:05:20','YYYY-MM-DD HH24:MI:SS'),
-  (SELECT REF(e) FROM tb_entregador e WHERE e.CPF = '88888888888'),
+  (SELECT REF(e) FROM tb_entregador e WHERE e.CPF = '15151515151'),
   (SELECT REF(c) FROM tb_consumidor c WHERE c.CPF = '20202020202'),
   (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '77777777777777')
 );
+INSERT INTO tb_pedido VALUES (
+  30,
+  TO_DATE('2025-03-24','YYYY-MM-DD'),
+  TO_TIMESTAMP('2025-03-28 13:01:29','YYYY-MM-DD HH24:MI:SS'),
+  (SELECT REF(e) FROM tb_entregador e WHERE e.CPF = '88888888888'),
+  (SELECT REF(c) FROM tb_consumidor c WHERE c.CPF = '26262626262'),
+  (SELECT REF(f) FROM tb_fornecedor f WHERE f.CNPJ = '10101010101010')
+);
 
 -- SELECT DEREF
--- dados do consumidor, do entregador, data e hora de entrega do pedido 1
+
+-- exibe quais fornecedores foram cadastados como supermercados e quais foram como restaurante utilizando a funcao gettipo()
 SELECT 
-    DEREF(p.CPF_Consumidor).Nome AS Nome_Consumidor,
-    DEREF(p.CPF_Entregador).Nome AS Nome_Entregador,
-    p.DataEntrega,
-    p.HoraDaEntrega
-FROM tb_pedido p
-WHERE p.IdPedido = 1;
+    f.Nome AS NomeFornecedor,
+    CASE 
+        WHEN sm.CNPJ IS NOT NULL THEN sm.getTipo()
+        WHEN r.CNPJ IS NOT NULL THEN r.getTipo()  
+        ELSE 'Outro Tipo' 
+    END AS TipoFornecedor
+FROM 
+    tb_fornecedor f
+LEFT JOIN 
+    tb_supermercado sm ON f.CNPJ = sm.CNPJ
+LEFT JOIN 
+    tb_restaurante r ON f.CNPJ = r.CNPJ
+ORDER BY 
+    NomeFornecedor;
+/
+
+-- Exibe todos os entregadores e a quantidade total de pedidos que entregaram, bem como a data mais recente de entrega realizada e o pedido de maior valor entregue.
+SELECT 
+    ent.Nome AS NomeEntregador,
+    COUNT(p.IdPedido) AS TotalPedidosEntregues,
+    MAX(p.DataEntrega) AS UltimaEntrega,
+    MAX(total_pedidos.ValorTotal) AS ValorPedidoMaisCaro
+FROM 
+    tb_entregador ent
+JOIN 
+    tb_pedido p ON p.CPF_Entregador = REF(ent)
+LEFT JOIN 
+    (
+        SELECT 
+            DEREF(c.IdPedido).IdPedido AS IdPedido,
+            SUM(po.Preco) AS ValorTotal
+        FROM 
+            tb_contem c
+        JOIN 
+            tb_produtoOfertado po ON c.IdProduto = REF(po)
+        GROUP BY 
+            DEREF(c.IdPedido).IdPedido
+    ) total_pedidos ON p.IdPedido = total_pedidos.IdPedido
+GROUP BY 
+    ent.Nome;
 /
 
 -- cnpj do fornecedor, nome do produto ofertado e preço do produto ofertado pelo fornecedor I
@@ -39,6 +82,16 @@ JOIN tb_fornecedor f
 JOIN tb_produto p
     ON DEREF(po.idProduto).IdProduto = p.IdProduto
 WHERE f.Nome = 'Fornecedor I';
+/
+
+-- dados do consumidor, do entregador, data e hora de entrega do pedido 1
+SELECT 
+    DEREF(p.CPF_Consumidor).Nome AS Nome_Consumidor,
+    DEREF(p.CPF_Entregador).Nome AS Nome_Entregador,
+    p.DataEntrega,
+    p.HoraDaEntrega
+FROM tb_pedido p
+WHERE p.IdPedido = 1;
 /
 
 -- testando map function transformaporcentagem + CONSULTA À VARRAY + CONSULTA À NESTED TABLE  
