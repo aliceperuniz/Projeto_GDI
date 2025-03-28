@@ -45,7 +45,7 @@ ORDER BY
     NomeFornecedor;
 /
 
--- Exibe todos os entregadores e a quantidade total de pedidos que entregaram, bem como a data mais recente de entrega realizada e o pedido de maior valor entregue.
+-- exibe todos os entregadores e a quantidade total de pedidos que entregaram, bem como a data mais recente de entrega realizada e o pedido de maior valor entregue.
 SELECT 
     ent.Nome AS NomeEntregador,
     COUNT(p.IdPedido) AS TotalPedidosEntregues,
