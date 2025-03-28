@@ -18,6 +18,7 @@ INSERT INTO tb_pedido VALUES (
 );
 
 -- SELECT DEREF
+-- dados do consumidor, do entregador, data e hora de entrega do pedido 1
 SELECT 
     DEREF(p.CPF_Consumidor).Nome AS Nome_Consumidor,
     DEREF(p.CPF_Entregador).Nome AS Nome_Entregador,
@@ -27,6 +28,7 @@ FROM tb_pedido p
 WHERE p.IdPedido = 1;
 /
 
+-- cnpj do fornecedor, nome do produto ofertado e preço do produto ofertado pelo fornecedor I
 SELECT 
     DEREF(po.CNPJ_Forn).CNPJ AS CNPJ_Fornecedor,
     DEREF(po.idProduto).Nome AS Nome_Produto,
@@ -40,6 +42,7 @@ WHERE f.Nome = 'Fornecedor I';
 /
 
 -- testando map function transformaporcentagem + CONSULTA À VARRAY + CONSULTA À NESTED TABLE  
+-- nome dos produtos ofertados, preço, desconto transformado pela função e telefones de cada fornecedor
 SELECT 
   DEREF(p.IdProduto).Nome AS Produto,
   p.Preco,
@@ -52,15 +55,14 @@ FROM tb_produtoOfertado p,
 WHERE DEREF(p.CNPJ_Forn).CNPJ = s.CNPJ;
 /
 
+-- nome do restaurante e nome dos seus produtos ofertados e preço, que sejam componentes de algum produto composto
 SELECT
   r.Nome AS Restaurante,
   DEREF(p.IdProduto).Nome AS Produto_Ofertado,
   p.Preco AS Preco_Produto,
   DEREF(comp.CodigoComposto).Nome AS Produto_Composto,
-  DEREF(c.IdPedido).IdPedido AS Pedido_Referencia
 FROM tb_restaurante r,
      tb_produtoOfertado p,
-     tb_contem c,
      tb_componente comp
 WHERE DEREF(comp.CodigoComponente).IdProduto = DEREF(p.idProduto).idProduto;
 /
@@ -97,18 +99,16 @@ END;
 /
 
 -- testando função getIdentificador e getTipo para fornecedor, supermercado e restaurante
-
 SELECT f.getTipo(),f.getIdentificador() FROM tb_fornecedor f WHERE f.rua = 'Av Forn X';
 SELECT f.getTipo(),f.getIdentificador() FROM tb_restaurante f;
 SELECT f.getTipo(),f.getIdentificador() FROM tb_supermercado f;
 
--- testando order function mesmoddd + CONSULTA À VARRAY
-
+-- testando order function mesmoddd
 DECLARE
     entregador tp_entregador;
     resultado INTEGER;
 BEGIN
-    -- Busca o objeto do entregador corretamente
+    -- Busca o objeto do entregador de cpf 11111111111
     SELECT value(e) 
     INTO entregador 
     FROM tb_entregador e 
@@ -124,8 +124,7 @@ BEGIN
 END;
 /
 
--- testando order function mesmoddd 
-
+-- testando order function mesmoddd diretamente com os telefones
 DECLARE
     telefone1 tp_telefoneEntregador := tp_telefoneEntregador('81', '987654321');
     telefone2 tp_telefoneEntregador := tp_telefoneEntregador('81', '987123456');
