@@ -113,7 +113,7 @@ SELECT
   r.Nome AS Restaurante,
   DEREF(p.IdProduto).Nome AS Produto_Ofertado,
   p.Preco AS Preco_Produto,
-  DEREF(comp.CodigoComposto).Nome AS Produto_Composto,
+  DEREF(comp.CodigoComposto).Nome AS Produto_Composto
 FROM tb_restaurante r,
      tb_produtoOfertado p,
      tb_componente comp
