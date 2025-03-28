@@ -143,6 +143,7 @@ END;
 /
 
 -- aprimorando a consulta dos descontos e mostrando o preço com desconto
+-- DEREF + CONSULTA A NESTED TABLE + teste tranformaporcentagem
 SELECT 
     DEREF(po.idProduto).Nome AS Nome_Produto,
     po.Preco AS Preco_Produto,
@@ -160,6 +161,7 @@ WHERE
 
 
 -- produtos ofertados com desconto em janeiro de 2025
+-- DEREF + CONSULTA A NESTED TABLE + teste tranformaporcentagem
 SELECT 
     DEREF(po.idProduto).Nome AS Produto,
     po.Preco,
@@ -173,6 +175,7 @@ WHERE DEREF(po.CNPJ_Forn).CNPJ = s.CNPJ
 
 
 -- detalhes de todos os consumidores que fizeram pedidos acima de 10 reais
+-- REF + DEREF + teste detalhesConsumidor()
 BEGIN
   FOR cons_rec IN (
     SELECT VALUE(c) AS consumidor_obj
@@ -215,3 +218,39 @@ FROM tb_restaurante f
 WHERE f.Cidade = 'Recife'
 ;
 /
+
+-- todos os pedidos feitos, bem como os produtos vendidos, consumidores, fornecedores e entregadores.
+SELECT 
+    p.IdPedido,
+    DEREF(p.CPF_Consumidor).Nome AS Nome_Consumidor,
+    DEREF(p.CPF_Entregador).Nome AS Nome_Entregador,
+    f.Nome AS Nome_Fornecedor,
+    DEREF(po.IdProduto).Nome AS Nome_Produto,
+    po.Preco
+FROM tb_pedido p
+JOIN tb_contem c 
+  ON DEREF(c.IdPedido).IdPedido = p.IdPedido
+JOIN tb_produtoOfertado po 
+  ON c.IdProduto = REF(po)
+JOIN tb_fornecedor f 
+  ON DEREF(po.CNPJ_Forn).CNPJ = f.CNPJ;
+
+-- selecionando os produtos ofertados que juntos formam um componente (tb_componente)
+SELECT 
+    p.IdPedido,
+    DEREF(po.IdProduto).Nome AS Produto_Ofertado,
+    DEREF(comp.CodigoComposto).Nome AS Produto_Composto
+FROM tb_pedido p
+JOIN tb_contem c ON DEREF(c.IdPedido).IdPedido = p.IdPedido
+JOIN tb_produtoOfertado po ON c.IdProduto = REF(po)
+JOIN tb_componente comp ON DEREF(comp.CodigoComponente).IdProduto = DEREF(po.IdProduto).IdProduto
+ORDER BY p.IdPedido;
+
+-- selecionando os consumidores pela quantidade de pedidos feitos
+SELECT 
+    DEREF(p.CPF_Consumidor).CPF AS CPF_Consumidor,
+    DEREF(p.CPF_Consumidor).Nome AS Nome_Consumidor,
+    COUNT(p.IdPedido) AS Qtd_Pedidos
+FROM tb_pedido p
+GROUP BY DEREF(p.CPF_Consumidor).CPF, DEREF(p.CPF_Consumidor).Nome
+ORDER BY Nome_Consumidor;
