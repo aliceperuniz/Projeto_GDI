@@ -93,11 +93,11 @@ CREATE OR REPLACE TYPE tp_fornecedor AS OBJECT (
 /
 
 CREATE OR REPLACE TYPE BODY tp_fornecedor AS
-    MEMBER FUNCTION getIdentificador RETURN VARCHAR2 FINAL IS
+    MEMBER FUNCTION getIdentificador RETURN VARCHAR2 IS
     BEGIN
          RETURN 'Fornecedor: ' || SELF.CNPJ;
     END;
-    
+
     MEMBER FUNCTION getTipo RETURN VARCHAR2 IS
     BEGIN
          RETURN 'Fornecedor';
