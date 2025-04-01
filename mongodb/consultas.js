@@ -60,7 +60,7 @@ db.agendamentos.aggregate([
 ]).pretty();
 
 // cancela agendamentos de clientes com mais de 30 anos 
-// FUNCTION + SET + UPDATE
+// FUNCTION + SET + UPDATE + FILTER
 
 function calcularIdade(dataNascimento) {
     const hoje = new Date();
