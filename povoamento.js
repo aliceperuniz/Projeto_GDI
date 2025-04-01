@@ -1,9 +1,9 @@
 use('Dentist');
 
-// db.createCollection("pacientes")
-// db.createCollection("dentistas")
-// db.createCollection("agendamentos")
-// db.createCollection("tratamentos")
+db.createCollection("pacientes")
+db.createCollection("dentistas")
+db.createCollection("agendamentos")
+db.createCollection("tratamentos")
 
 db.pacientes.drop();
 db.dentistas.drop();
