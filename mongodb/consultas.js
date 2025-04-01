@@ -173,3 +173,52 @@ db.agendamentos.find(
   .sort({ data_hora: 1 })
   .limit(5);
   
+  // Atualizar o status de um agendamento para "Confirmado" se o status for "Pendente" e
+  // para "Pendente" se o status for "Cancelado". Do contrário, manter
+  // UPDATEONE +  COND 
+
+  db.agendamentos.updateOne(
+    { _id: 5 }, 
+    [
+      {
+        $set: {
+          status: {
+            $cond: {
+              if: { $eq: ["$status", "Pendente"] },
+              then: "Confirmado",
+              else: { $cond: { if: { $eq: ["$status", "Cancelado"] }, then: "Pendente", else: "$status" } }
+            }
+          }
+        }
+      }
+    ]
+  );
+  
+
+  // Encontrar o número de dentistas que possuem as especialidades "Endodontia" e "Clínico Geral"
+  // COUNT + ALL
+  
+  db.dentistas.countDocuments({
+    "especialidade": { $all: ["Endodontia", "Clínico Geral"] }
+  })
+
+  // Adicionar um novo horário de atendimento para o dentista que atende
+  //  às segundas-feiras das 07:30 às 11:30
+// FINDONE + ALL + UPDATEONDE + ADDTOSET
+  const dentista = db.dentistas.findOne({
+    "horarios_atendimento.segunda": { $all: ["07:30 - 11:30"] }
+  });
+  
+  console.log(dentista);
+
+  if (dentista) {
+    db.dentistas.updateOne(
+      { "_id": dentista._id }, // Identificador do dentista
+      { $addToSet: { "horarios_atendimento.sábado": "08:00 - 12:00" } } // Adiciona "sábado 08:00 - 12:00" ao array de horários de sábado
+    );
+  }
+  console.log(dentista);
+
+  // RENAMECOLLECTION
+  db.dentistas.renameCollection("profissionais");
+  db.profissionais.renameCollection("dentistas");
