@@ -502,6 +502,15 @@ db.agendamentos.insertMany([
       "data_hora": new Date('2025-05-25T14:15:00'),
       "status": "Pendente",
       "tratamentos": [3, 8]
+    },
+    {
+      "_id": 21,
+      "paciente_id": 10,
+      "dentista_id": 2,
+      "data_hora": new Date('2025-05-21T14:15:00'),
+      "status": "Confirmado",
+      "observacoes": "Tratamento de canal raiz programado.",
+      "tratamentos": [1,3,8]
     }
   ]
 );
