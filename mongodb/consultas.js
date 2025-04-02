@@ -152,20 +152,18 @@ db.agendamentos.mapReduce(
 db.resultado_ganhos_dentistas.find().sort({ total_ganho: -1 });
 
 
-// Buscar agendamentos confirmados que possuam pelo menos três
-// tratamentos, contenham palavras-chave específicas nas
-// observações, ocorram no futuro e onde o paciente e o dentista 
-// sejam diferentes, ordenando os resultados pela data mais próxima 
-// e limitando aos cinco registros mais próximos.
+// Buscar agendamentos confirmados que possuam três tratamentos,
+// contenham o status  de "Confirmado", ocorram no futuro e onde 
+// o dentista sejam o de id 2, ordenando os resultados pela data 
+// mais próxima e limitando aos cinco registros mais próximos.
 
 // TEXT + SIZE + WHERE + SORT + LIMIT + SEARCH + GTE
-db.agendamentos.createIndex({ observacoes: "text" });
+db.agendamentos.createIndex({ status: "text" });
 
 db.agendamentos.find(
     {
-      status: "Confirmado",
       tratamentos: { $size: 3 },
-      $text: { $search: "canal raiz" },
+      $text: { $search: " Confirmado" },
       data_hora: { $gte: new Date() },
       $where: "this.dentista_id == 2"
     }
