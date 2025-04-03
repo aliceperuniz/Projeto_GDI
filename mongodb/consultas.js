@@ -130,7 +130,7 @@ db.agendamentos.mapReduce(
       let total_ganho = 0;
       this.tratamentos.forEach(tratamentoId => {
         if (tratamentosMap[tratamentoId]) {
-          total_ganho += tratamentosMap[tratamentoId]; // Soma os valores
+          total_ganho += tratamentosMap[tratamentoId]; 
         }
       });
       emit(this.dentista_id, { total_ganho: total_ganho, count: 1 });
@@ -138,8 +138,8 @@ db.agendamentos.mapReduce(
   },
   function (key, values) {
     return {
-      total_ganho: values.reduce((sum, v) => sum + v.total_ganho, 0), // $sum do valor total recebido
-      total_agendamentos: values.reduce((sum, v) => sum + v.count, 0) // $count do número de agendamentos confirmados
+      total_ganho: values.reduce((sum, v) => sum + v.total_ganho, 0), 
+      total_agendamentos: values.reduce((sum, v) => sum + v.count, 0) 
     };
   },
   {
@@ -211,8 +211,8 @@ console.log(dentista);
 
 if (dentista) {
 db.dentistas.updateOne(
-    { "_id": dentista._id }, // Identificador do dentista
-    { $addToSet: { "horarios_atendimento.sabado": "08:00 - 12:00" } } // Adiciona "sábado 08:00 - 12:00" ao array de horários de sábado
+    { "_id": dentista._id },
+    { $addToSet: { "horarios_atendimento.sabado": "08:00 - 12:00" } } 
 );
 }
 
