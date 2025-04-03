@@ -110,7 +110,7 @@ db.agendamentos.find(
     data_hora: maxData 
   },
   {
-    status: 0 ($unset)
+    status: 0
   }
 )
 
