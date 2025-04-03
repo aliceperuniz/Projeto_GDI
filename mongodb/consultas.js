@@ -116,7 +116,7 @@ db.agendamentos.find(
 
 
 // Calcular o total de valor ganho e o número de agendamentos confirmados por dentista, para dentistas que possuem algum tratamento registrado.
-// MAPREDUCE + SUM + EXISTS + COUNT + FUNCTION
+// MAPREDUCE + EXISTS + COUNT + FUNCTION
 
 const tratamentosMap = {};
 db.tratamentos.find().forEach(tratamento => {
@@ -163,7 +163,7 @@ db.agendamentos.createIndex({ status: "text" });
 db.agendamentos.find(
     {
       tratamentos: { $size: 3 },
-      $text: { $search: " Confirmado" },
+      $text: { $search: "Confirmado" },
       data_hora: { $gte: new Date() },
       $where: "this.dentista_id == 2"
     }
@@ -225,3 +225,14 @@ console.log(dentistaCheck);
   // RENAMECOLLECTION
   db.dentistas.renameCollection("profissionais");
   db.profissionais.renameCollection("dentistas");
+
+// Calcula a soma dos valores de todos os tratamentos cadastrados.
+// AGGREGATE + GROUP + SUM
+db.tratamentos.aggregate([
+  {
+    $group: {
+      _id: null,
+      totalValor: { $sum: "$valor" }
+    }
+  }
+]);
