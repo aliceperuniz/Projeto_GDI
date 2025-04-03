@@ -32,7 +32,7 @@ db.agendamentos.aggregate([
 ]).pretty();
 
 // retorna a média de ganho dos agendamentos confirmados dos dentistas
-// AVG + GROUP + SORT + PRETTY
+// AGGREGATE + MATCH + AVG + GROUP + SORT + PRETTY
 db.agendamentos.aggregate([
     {
       $match: { status: "Confirmado" }  
@@ -85,7 +85,7 @@ db.agendamentos.updateMany(
 );
 
 // Buscar o agendamento mais distante dos confirmados onde a data seja maior ou igual a hoje 
-// GTE + MAX + FIND 
+// AGGREGATE + MATCH + GTE + MAX + FIND 
 
 const hoje = new Date(); // Data atual
 
