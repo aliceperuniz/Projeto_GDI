@@ -200,22 +200,27 @@ db.agendamentos.find(
     "especialidade": { $all: ["Endodontia", "Clínico Geral"] }
   })
 
-  // Adicionar um novo horário de atendimento para o dentista que atende
-  //  às segundas-feiras das 07:30 às 11:30
+// Adicionar um novo horário de atendimento para o dentista que atende
+//  às segundas-feiras das 07:30 às 11:30
 // FINDONE + ALL + UPDATEONDE + ADDTOSET
-  const dentista = db.dentistas.findOne({
+const dentista = db.dentistas.findOne({
     "horarios_atendimento.segunda": { $all: ["07:30 - 11:30"] }
-  });
-  
-  console.log(dentista);
+});
 
-  if (dentista) {
-    db.dentistas.updateOne(
-      { "_id": dentista._id }, // Identificador do dentista
-      { $addToSet: { "horarios_atendimento.sábado": "08:00 - 12:00" } } // Adiciona "sábado 08:00 - 12:00" ao array de horários de sábado
-    );
-  }
-  console.log(dentista);
+console.log(dentista);
+
+if (dentista) {
+db.dentistas.updateOne(
+    { "_id": dentista._id }, // Identificador do dentista
+    { $addToSet: { "horarios_atendimento.sabado": "08:00 - 12:00" } } // Adiciona "sábado 08:00 - 12:00" ao array de horários de sábado
+);
+}
+
+const dentistaCheck = db.dentistas.findOne({
+    "horarios_atendimento.sabado": { $all: ["08:00 - 12:00"] }
+});
+
+console.log(dentistaCheck);
 
   // RENAMECOLLECTION
   db.dentistas.renameCollection("profissionais");
