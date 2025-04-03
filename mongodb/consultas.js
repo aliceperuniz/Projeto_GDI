@@ -32,7 +32,7 @@ db.agendamentos.aggregate([
 ]).pretty();
 
 // retorna a média de ganho dos agendamentos confirmados dos dentistas
-// AGGREGATE + MATCH + AVG + GROUP + SORT + PRETTY
+// AGGREGATE + MATCH + LOOKUP + AVG + GROUP + SORT + PRETTY
 db.agendamentos.aggregate([
     {
       $match: { status: "Confirmado" }  
