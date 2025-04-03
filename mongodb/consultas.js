@@ -112,7 +112,7 @@ db.agendamentos.find(
   {
     status: 0
   }
-)
+);
 
 
 // Calcular o total de valor ganho e o número de agendamentos confirmados por dentista, para dentistas que possuem algum tratamento registrado.
