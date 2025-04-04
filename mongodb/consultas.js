@@ -116,7 +116,7 @@ db.agendamentos.find(
 
 
 // Calcular o total de valor ganho e o número de agendamentos confirmados por dentista, para dentistas que possuem algum tratamento registrado.
-// MAPREDUCE + EXISTS + COUNT + FUNCTION
+// MAPREDUCE + EXISTS 
 
 const tratamentosMap = {};
 db.tratamentos.find().forEach(tratamento => {
